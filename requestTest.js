@@ -1,7 +1,7 @@
 var request = require('request');
 
 var url = 'http://wechat.worldelectronicaccessory.com/jsonTest.php';
-request.post({url:url,form:{name:'nihao'}},function(err,resp,body){
+setInterval(function(){request.post({url:url,form:{name:'nihao'}},function(err,resp,body){
   if (!err && resp.statusCode === 200) {
       //json = JSON.parse(body)
       console.log(body);
@@ -12,4 +12,5 @@ request.post({url:url,form:{name:'nihao'}},function(err,resp,body){
   }else{
     console.log("Error")
   }
-});
+})
+},5000);
