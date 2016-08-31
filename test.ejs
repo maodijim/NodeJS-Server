@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title%></title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <link rel='stylesheet' href="/stylesheets/bootstrap.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/javascripts/bootstrap.js"></script>
+    </head>
+    <body>
+      <% include templates/header.ejs %>
+        <h1>This is a test page</h1>
+        <!--<p>Welcome to <%= title %></p>-->
+        <% for(var i=0; i<4;i++){%>
+        <span>Device <%= i%>:</span>
+        <label class="switch">
+          <input class="checkbox<%=i%>" type="checkbox">
+         <div class="slider round">
+         </div>
+      </label>
+      <p> device 1 status: <span class="result<%=i%>">
+        <script>
+          $('.checkbox<%=i%>').change(function(){
+            if(this.checked){
+              $('.result<%=i%>').text('checked');
+            }else{
+              $('.result<%=i%>').text('unchecked');
+            }
+          });
+
+
+        </script>
+
+      </span></p>
+      <%}%>
+    </body>
+</html>
