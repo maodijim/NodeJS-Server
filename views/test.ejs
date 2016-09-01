@@ -11,6 +11,9 @@
       <% include templates/header.ejs %>
         <h1>This is a test page</h1>
         <!--<p>Welcome to <%= title %></p>-->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
         <% for(var i=0; i<4;i++){%>
         <span>Device <%= i%>:</span>
         <label class="switch">
@@ -33,5 +36,9 @@
 
       </span></p>
       <%}%>
+
+</div>
+    </div>
+  </div>
     </body>
 </html>
