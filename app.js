@@ -20,7 +20,6 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 app.post('/',function(request,response){
-  var someData:[];
   str = request.body.status;
   var file = 'file'+request.body.device;
   if(str == 'ON'){

@@ -4,11 +4,10 @@ const exec = require('child_process');
 var fs = require('fs');
 
 
-var file = fs.readFileSync('./file0','utf8');
-var file1 = fs.readFileSync('./file1','utf8');
-var file2 = fs.readFileSync('./file2','utf8');
-var file3 = fs.readFileSync('./file3','utf8');
-console.log(file2);
+var file = fs.readFileSync('./file','utf8');
+var data = JSON.parse(file);
+var output = JSON.stringify(data);
+console.log(output);
 //console.log(file);
 
 /*setInterval(function run(){
@@ -23,7 +22,7 @@ exec.exec('cd ',function(error,stdout,stderr){
 
 /* GET about page. */
 router.get('/', function(req, res, next) {
-  res.render('test', { title: 'Test',status0:file,status1:file1,status2:file2,status3:file3});
+  res.render('test', { title: 'Test',this:output});
 });
 
 module.exports = router;
