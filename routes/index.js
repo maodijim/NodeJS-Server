@@ -3,7 +3,7 @@ var request = require('request');
 var router = express.Router();
 
 
-var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22sfo%22&format=json&diagnostics=true&callback=';
+/*var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22sfo%22&format=json&diagnostics=true&callback=';
 var json = '';
 setInterval(function(){
   request({url:url,json:true}, function (error, response, body) {
@@ -20,13 +20,13 @@ setInterval(function(){
         console.log("Error")
       }
   })
-},3500);
+},3500);*/
 
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', city: json });
+  res.render('index', { title: 'Express'/*, city: json*/ });
 });
 
 module.exports = router;

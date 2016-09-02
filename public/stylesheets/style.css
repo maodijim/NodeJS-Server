@@ -1,18 +1,25 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
 }
 
 a {
   color: #00B7FF;
 }
+ .container-fluid{
+   text-align: center;
+ }
+span{
+  font-size:2em;
+  margin-bottom: 15px;
+}
 
 .switch{
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
-  padding-top: 15px;
+  width: 120px;
+  height: 50px;
 }
 
 .switch input{
@@ -34,10 +41,10 @@ a {
 .slider:before{
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 40px;
+  width: 40px;
   left: 4px;
-  bottom: 4px;
+  bottom: 5px;
   background-color: white;
   -webkit-transition: .5s;
   transition: .5s;
@@ -52,13 +59,14 @@ input:focus + .slider{
 }
 
 input:checked + .slider:before{
-  -webkit-transform: translateX(26px);
-  -ms-transform: trnaslateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(70px);
+  -ms-transform: trnaslateX(70px);
+  transform: translateX(70px);
 }
 
 .slider.round{
   border-radius: 34px;
+
 }
 
 .slider.round:before{

@@ -1,8 +1,10 @@
 var express = require('express');
+const exec = require('child_process').exec;
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var fs = require('fs');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
@@ -12,6 +14,35 @@ var test = require('./routes/test');
 
 var app = express();
 
+var str = '';
+
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
+app.post('/',function(request,response){
+  str = request.body.status;
+  var file = 'file'+request.body.device;
+  if(str == 'ON'){
+    fs.writeFile(file,'ON',(err) => {
+      if (err) throw err;
+      console.log('On');
+      /*exec('cd ',function(error,stdout,stderr){
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if(error !== null){
+          console.log('exec error: ' + error);
+        }
+      });*/
+    });
+  }else if(str == 'OFF'){
+
+    fs.writeFile(file,'OFF',(err) => {
+      if (err) throw err;
+      console.log('OFF');
+    });
+  }
+  response.send('file changed');
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
