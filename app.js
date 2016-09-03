@@ -14,14 +14,20 @@ var test = require('./routes/test');
 
 var app = express();
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+/* Custom Functions Go here
+---------------------------*/
 app.post('/',function(request,response){
-  var status = request.body.status;
+  var deviceStatus = request.body.status;
   var deviceNum = request.body.device;
   var file = fs.readFileSync('file','utf8');
   var readData = JSON.parse(file);
 //  var file = 'file'+request.body.device;
-  if(status == 'ON'){
-    readData.devices[deviceNum].status = "ON";
+  if(deviceStatus == 'ON'){
+    readData.devices[deviceNum].status = 'ON';
     var writeData = JSON.stringify(readData);
     fs.writeFile('file',writeData,(err) => {
       if (err) throw err;
@@ -34,8 +40,8 @@ app.post('/',function(request,response){
         }
       });*/
     });
-  }else if(status == 'OFF'){
-    readData.devices[deviceNum].status = "OFF";
+  }else if(deviceStatus == 'OFF'){
+    readData.devices[deviceNum].status = 'OFF';
     var writeData = JSON.stringify(readData);
     fs.writeFile('file',writeData,(err) => {
       if (err) throw err;
@@ -44,6 +50,10 @@ app.post('/',function(request,response){
   }
   response.send('file changed');
 });
+
+/* ---------------------------
+Custom Functions End here */
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
