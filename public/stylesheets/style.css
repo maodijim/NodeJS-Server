@@ -3,23 +3,40 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 
 }
+ul{
+  display: inline;
+}
+h1{ text-align: center;}
+
+th{
+  font-size: 1.5em;
+}
+
+nav{
+  font-size: 1.5em;
+}
+
+#textbox{
+  width:100px;
+  margin-top: -25px;
+  font-size: 1.5em;
+  border-color: transparent;
+}
 
 a {
   color: #00B7FF;
 }
  .container-fluid{
-   text-align: center;
+   /*text-align: center;*/
+   margin-bottom: 15px;
  }
-span{
-  font-size:2em;
-  margin-bottom: 15px;
-}
+
 
 .switch{
   position: relative;
   display: inline-block;
-  width: 120px;
-  height: 50px;
+  width: 100px;
+  height: 45px;
 }
 
 .switch input{
@@ -41,9 +58,9 @@ span{
 .slider:before{
   position: absolute;
   content: "";
-  height: 40px;
-  width: 40px;
-  left: 4px;
+  height: 35px;
+  width: 35px;
+  left: 5px;
   bottom: 5px;
   background-color: white;
   -webkit-transition: .5s;
@@ -55,18 +72,17 @@ input:checked + .slider{
 }
 
 input:focus + .slider{
-  box-shadow: 0 0 1px #47d147;
+  box-shadow: 0 0 5px #47d147;
 }
 
 input:checked + .slider:before{
-  -webkit-transform: translateX(70px);
-  -ms-transform: trnaslateX(70px);
-  transform: translateX(70px);
+  -webkit-transform: translateX(50px);
+  -ms-transform: trnaslateX(50px);
+  transform: translateX(55px);
 }
 
 .slider.round{
   border-radius: 34px;
-
 }
 
 .slider.round:before{
