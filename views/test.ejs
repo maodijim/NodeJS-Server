@@ -23,8 +23,19 @@
          <div class="slider round">
          </div>
       </label>
-      <p> device<%=i%> status: <span class="result<%=i%>"> <span id='return'><%=this%></span>
+      <p> device<%=i%> status: <span class="result<%=i%>"> <span id='return'></span>
         <script>
+         $(window).load(function(){
+           var i =0;
+             var status = '<%= output.devices['+i+'].status%>';
+             if(status == "ON"){
+                $('.checkbox<%= i%>').attr('checked','checked');
+             }else if(status == "OFF"){
+               $('.checkbox<%= i%>').removeAttr('checked');
+             }
+
+
+         });
 
           $('.checkbox<%=i%>').change(function(){
             if(this.checked){
