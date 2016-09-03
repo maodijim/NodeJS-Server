@@ -31,7 +31,7 @@ app.post('/',function(request,response){
     var writeData = JSON.stringify(readData);
     fs.writeFile('file',writeData,(err) => {
       if (err) throw err;
-      console.log('On');
+      //console.log('On');
       /*exec('cd ',function(error,stdout,stderr){
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -45,7 +45,7 @@ app.post('/',function(request,response){
     var writeData = JSON.stringify(readData);
     fs.writeFile('file',writeData,(err) => {
       if (err) throw err;
-      console.log('OFF');
+      //console.log('OFF');
     });
   }
   response.send('file changed');
