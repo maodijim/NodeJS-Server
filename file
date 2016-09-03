@@ -1,1 +1,1 @@
-{"devices":[{"device":"device0","status":"ON"},{"device":"device1","status":"ON"}]}
+{"devices":[{"device":"device0","status":"OFF"},{"device":"device1","status":"OFF"},{"device":"device2","status":"OFF"},{"device":"device3","status":"ON"}]}

@@ -14,16 +14,16 @@ var test = require('./routes/test');
 
 var app = express();
 
-var str = '';
-
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
-
 app.post('/',function(request,response){
-  str = request.body.status;
-  var file = 'file'+request.body.device;
-  if(str == 'ON'){
-    fs.writeFile(file,'ON',(err) => {
+  var status = request.body.status;
+  var deviceNum = request.body.device;
+  var file = fs.readFileSync('file','utf8');
+  var readData = JSON.parse(file);
+//  var file = 'file'+request.body.device;
+  if(status == 'ON'){
+    readData.devices[deviceNum].status = "ON";
+    var writeData = JSON.stringify(readData);
+    fs.writeFile('file',writeData,(err) => {
       if (err) throw err;
       console.log('On');
       /*exec('cd ',function(error,stdout,stderr){
@@ -34,9 +34,10 @@ app.post('/',function(request,response){
         }
       });*/
     });
-  }else if(str == 'OFF'){
-
-    fs.writeFile(file,'OFF',(err) => {
+  }else if(status == 'OFF'){
+    readData.devices[deviceNum].status = "OFF";
+    var writeData = JSON.stringify(readData);
+    fs.writeFile('file',writeData,(err) => {
       if (err) throw err;
       console.log('OFF');
     });

@@ -5,12 +5,14 @@ var bodyParser = require('body-parser');
 
 var file = fs.readFileSync('./file','utf8');
 var data = JSON.parse(file);
-var device = 'device1';
+//data.devices[0].status = "OFF";
+var device = 'device3';
 var status = 'OFF';
 var newdata = JSON.parse('{"device":"'+device+'","status":"'+status+'"}');
 data.devices.push(newdata);
-var add = JSON.stringify(data);
-//fs.writeFile('./file',add,(err) =>{
-//  if(err) throw err;
-//});
-console.log(data);
+data.devices.pop(data);
+//var add = JSON.stringify(data);
+/*fs.writeFile('./file',add,(err) =>{
+  if(err) throw err;
+});*/
+console.log(data.devices);

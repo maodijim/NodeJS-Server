@@ -26,8 +26,10 @@
       <p> device<%=i%> status: <span class="result<%=i%>"> <span id='return'></span>
         <script>
          $(window).load(function(){
-           var i =0;
-             var status = '<%= output.devices['+i+'].status%>';
+           var count = '<%= deviceNum%>';
+           var output = '<%= output.devices[0].device%>';
+           $('#return').text('<%= output.devices[0].device%>');
+             var status = '<%= output.devices[i].status%>';
              if(status == "ON"){
                 $('.checkbox<%= i%>').attr('checked','checked');
              }else if(status == "OFF"){

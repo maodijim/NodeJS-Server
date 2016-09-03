@@ -7,7 +7,7 @@ var fs = require('fs');
 var file = fs.readFileSync('./file','utf8');
 var data = JSON.parse(file);
 var count = data.devices.length;
-console.log(count);
+//console.log(count);
 //console.log(file);
 
 /*setInterval(function run(){
@@ -22,7 +22,7 @@ exec.exec('cd ',function(error,stdout,stderr){
 
 /* GET about page. */
 router.get('/', function(req, res, next) {
-  res.render('test', { title: 'Test',deviceNum:count, output:data, output1:data.devices[1].status});
+  res.render('test', {title:'Test', deviceNum:count, output:data});
 });
 
 module.exports = router;
