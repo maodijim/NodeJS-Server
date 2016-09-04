@@ -3,7 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var bodyParser = require('body-parser');
 
-var file = fs.readFileSync('./file','utf8');
+/*var file = fs.readFileSync('./file','utf8');
 var data = JSON.parse(file);
 //data.devices[0].status = "OFF";
 var device = 'device3';
@@ -14,5 +14,5 @@ data.devices.pop(data);
 //var add = JSON.stringify(data);
 /*fs.writeFile('./file',add,(err) =>{
   if(err) throw err;
-});*/
-console.log(data.devices);
+});
+console.log(data.devices);*/
