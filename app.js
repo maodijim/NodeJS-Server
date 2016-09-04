@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var reload = require('require-reload')(require);
 var bodyParser = require('body-parser');
-
+var wifiPage = require('./routes/wifi');
 var routes = require('./routes/index');
 //var users = require('./routes/users');
 //var about = require('./routes/about');
@@ -20,41 +20,36 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 var deviceStatus = null,
-    deviceNum = null,
-    file = null,
-    readData = null,
-    count = null,
-    code = null,
-    command = null;
+deviceNum = null,
+file = null,
+readData = null,
+count = null,
+code = null,
+command = null;
 /* Custom Functions Go here
 ---------------------------*/
 app.post('/',function(request,response){
-   deviceStatus = request.body.status;
-   deviceNum = request.body.device;
-   file = fs.readFileSync('file','utf8');
-   readData = JSON.parse(file);
-//  var file = 'file'+request.body.device;
+  deviceStatus = request.body.status;
+  deviceNum = request.body.device;
+  file = fs.readFileSync('file','utf8');
+  readData = JSON.parse(file);
+  //  var file = 'file'+request.body.device;
   if(deviceStatus == 'ON'){
     readData.devices[deviceNum].status = 'ON';
     var writeData = JSON.stringify(readData);
-  //  count = readData.devices.length;
+    //  count = readData.devices.length;
     code = readData.devices[deviceNum].codeON;
     command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
 
-  exec(command,function(error,stdout,stderr){
-      //  console.log('stdout: ' + stdout);
-    //    console.log('stderr: ' + stderr);
-      //  if(error !== null){
-         // console.log('exec error: ' + error);
-        //}
-      });
-      if(writeData != ""){
-        fs.writeFile('file',writeData,(err) => {
-          if (err) throw err;
-          //console.log('On');
+    exec(command,function(error,stdout,stderr){
+    });
+    if(writeData !== ""){
+      fs.writeFile('file',writeData,(err) => {
+        if (err) throw err;
+        //console.log('On');
 
-        });
-      }
+      });
+    }
 
 
   }else if(deviceStatus == 'OFF'){
@@ -63,20 +58,20 @@ app.post('/',function(request,response){
     //count = readData.devices.length;
     code = readData.devices[deviceNum].codeOFF;
     command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 188';
-  exec(command,function(error,stdout,stderr){
+    exec(command,function(error,stdout,stderr){
       //  console.log('stdout: ' + stdout);
       //  console.log('stderr: ' + stderr);
-        //if(error !== null){
-         // console.log('exec error: ' + error);
+      //if(error !== null){
+      // console.log('exec error: ' + error);
       //  }
-      });
-      if(writeData != ""){
-        fs.writeFile('file',writeData,(err) => {
-          if (err) throw err;
-          //console.log('On');
+    });
+    if(writeData !== ""){
+      fs.writeFile('file',writeData,(err) => {
+        if (err) throw err;
+        //console.log('On');
 
-        });
-      }
+      });
+    }
 
   }
   response.send('file changed');
@@ -98,6 +93,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/wifi',wifiPage);
 //app.use('/users', users);
 //app.use('/about', about);
 //app.use('/test', test);
