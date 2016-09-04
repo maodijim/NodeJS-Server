@@ -5,12 +5,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
+var reload = require('require-reload')(require);
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
-var about = require('./routes/about');
-var test = require('./routes/test');
+//var about = require('./routes/about');
+//var test = require('./routes/test');
 
 var app = express();
 
@@ -18,35 +19,65 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+var deviceStatus = null,
+    deviceNum = null,
+    file = null,
+    readData = null,
+    count = null,
+    code = null,
+    command = null;
 /* Custom Functions Go here
 ---------------------------*/
 app.post('/',function(request,response){
-  var deviceStatus = request.body.status;
-  var deviceNum = request.body.device;
-  var file = fs.readFileSync('file','utf8');
-  var readData = JSON.parse(file);
+   deviceStatus = request.body.status;
+   deviceNum = request.body.device;
+   file = fs.readFileSync('file','utf8');
+   readData = JSON.parse(file);
 //  var file = 'file'+request.body.device;
   if(deviceStatus == 'ON'){
     readData.devices[deviceNum].status = 'ON';
     var writeData = JSON.stringify(readData);
-    fs.writeFile('file',writeData,(err) => {
-      if (err) throw err;
-      //console.log('On');
-      /*exec('cd ',function(error,stdout,stderr){
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if(error !== null){
-          console.log('exec error: ' + error);
-        }
-      });*/
-    });
+  //  count = readData.devices.length;
+    code = readData.devices[deviceNum].codeON;
+    command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
+
+  exec(command,function(error,stdout,stderr){
+      //  console.log('stdout: ' + stdout);
+    //    console.log('stderr: ' + stderr);
+      //  if(error !== null){
+         // console.log('exec error: ' + error);
+        //}
+      });
+      if(writeData != ""){
+        fs.writeFile('file',writeData,(err) => {
+          if (err) throw err;
+          //console.log('On');
+
+        });
+      }
+
+
   }else if(deviceStatus == 'OFF'){
     readData.devices[deviceNum].status = 'OFF';
     var writeData = JSON.stringify(readData);
-    fs.writeFile('file',writeData,(err) => {
-      if (err) throw err;
-      //console.log('OFF');
-    });
+    //count = readData.devices.length;
+    code = readData.devices[deviceNum].codeOFF;
+    command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 188';
+  exec(command,function(error,stdout,stderr){
+      //  console.log('stdout: ' + stdout);
+      //  console.log('stderr: ' + stderr);
+        //if(error !== null){
+         // console.log('exec error: ' + error);
+      //  }
+      });
+      if(writeData != ""){
+        fs.writeFile('file',writeData,(err) => {
+          if (err) throw err;
+          //console.log('On');
+
+        });
+      }
+
   }
   response.send('file changed');
 });
@@ -68,8 +99,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 //app.use('/users', users);
-app.use('/about', about);
-app.use('/test', test);
+//app.use('/about', about);
+//app.use('/test', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -77,6 +108,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 
