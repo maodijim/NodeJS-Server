@@ -1,60 +1,66 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title><%= title%></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel='stylesheet' href='/stylesheets/style.css'/>
-        <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="/javascripts/bootstrap.js"></script>
-        <script src="/javascripts/notify.js"></script>
-    </head>
-    <body>
-      <div class="container-fluid">
-        <div class="nav navbar">
-            <a href="wifi" class="navbar-brand">
-              <img src="logo35.png" alt="Brand" />
-            </a>
-        </div>
+<head>
+  <title><%= title%></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.js"></script>
+  <script src="/javascripts/notify.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="nav navbar">
+      <a href="wifi" class="navbar-brand">
+        <img src="logo35.png" alt="Brand" />
+      </a>
+    </div>
 
-        <h1>Wireless Power Control Unit </h1>
-        <button type="button" name="button" class="btn btn-info dropdown-toggle pull-right" data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>+</button>
-        <!--<p>Welcome to <%= title %></p>-->
-</div>
-<div class="container-fluid">
+    <h1>Wireless Power Control Unit </h1>
+    <button type="button" name="button" class="btn btn-info dropdown-toggle pull-right" data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>+</button>
+    <!--<p>Welcome to <%= title %></p>-->
+  </div>
+  <div class="container-fluid">
 
-<table class="table">
+    <table class="table">
 
-<tr>
-  <th>Device<th>
-</tr>
+      <tr>
+        <th>Device<th>
+        </tr>
 
         <% for(var i=0; i<deviceNum;i++){%>
           <% if(i%2 == 0) var color='success';else color = 'danger';%>
-        <tr class='<%= color%>'><td><input type='textbox' value='Device <%= i%>' id='textbox'>
-        <label class="switch">
+          <tr class='<%= color%>'><td>
+          <div class="form-group">
+          <label for=""></label>
+          <input type='textbox' value='Device <%= i%>' id='textbox'>
+          </div>
+
+          <label class="switch">
+
           <input class="checkbox<%=i%>" type="checkbox">
-         <div class="slider round"></div>
-      </label></td></tr>
-        <script>
-         $(window).load(function(){
-           var i =0;
-             var status = '<%= output.devices[i].status%>';
-             if(status == "ON"){
-                $('.checkbox<%= i%>').attr('checked','checked');
-             }else if(status == "OFF"){
-               $('.checkbox<%= i%>').removeAttr('checked');
-             }
+          <div class="slider round"></div>
+          </label></td></tr>
+          <script>
+          $(window).load(function(){
+            var i =0;
+            var status = '<%= output.devices[i].status%>';
+            if(status == "ON"){
+              $('.checkbox<%= i%>').attr('checked','checked');
+            }else if(status == "OFF"){
+              $('.checkbox<%= i%>').removeAttr('checked');
+            }
 
 
-         });
+          });
 
           $('.checkbox<%=i%>').change(function(){
             var btn = $('input');
             btn.prop('disabled',true);
             window.setTimeout(function(){
               btn.prop('disabled',false);
-            },3000);
+            },1000);
             $.notify("Signal Sent Please wait",{className:'success', showDuration:600, hideDuration:600, autoHideDelay: 3000, });
             if(this.checked){
               //$('.result<%=i%>').text('checked');
@@ -64,10 +70,10 @@
               $.post('/',{status:'OFF',device:<%=i%>});
             }
           });
-        </script>
+          </script>
 
-      <%}%>
-      </table>
-  </div>
+          <%}%>
+        </table>
+      </div>
     </body>
-</html>
+    </html>

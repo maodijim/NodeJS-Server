@@ -5,14 +5,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
-var reload = require('require-reload')(require);
 var bodyParser = require('body-parser');
 var wifiPage = require('./routes/wifi');
 var routes = require('./routes/index');
 //var users = require('./routes/users');
 //var about = require('./routes/about');
 //var test = require('./routes/test');
-
 var app = express();
 
 
@@ -28,6 +26,7 @@ code = null,
 command = null;
 /* Custom Functions Go here
 ---------------------------*/
+//POST data from switch status
 app.post('/',function(request,response){
   deviceStatus = request.body.status;
   deviceNum = request.body.device;
@@ -42,16 +41,13 @@ app.post('/',function(request,response){
     command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
 
     exec(command,function(error,stdout,stderr){
+      if(writeData !== ""){
+        fs.writeFile('file',writeData,(err) => {
+          if (err) throw err;
+
+        });
+      }
     });
-    if(writeData !== ""){
-      fs.writeFile('file',writeData,(err) => {
-        if (err) throw err;
-        //console.log('On');
-
-      });
-    }
-
-
   }else if(deviceStatus == 'OFF'){
     readData.devices[deviceNum].status = 'OFF';
     var writeData = JSON.stringify(readData);
@@ -59,22 +55,34 @@ app.post('/',function(request,response){
     code = readData.devices[deviceNum].codeOFF;
     command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 188';
     exec(command,function(error,stdout,stderr){
-      //  console.log('stdout: ' + stdout);
-      //  console.log('stderr: ' + stderr);
-      //if(error !== null){
-      // console.log('exec error: ' + error);
-      //  }
+      if(writeData !== ""){
+        fs.writeFile('file',writeData,(err) => {
+          if (err) throw err;
+        });
+      }
     });
-    if(writeData !== ""){
-      fs.writeFile('file',writeData,(err) => {
-        if (err) throw err;
-        //console.log('On');
-
-      });
-    }
-
   }
   response.send('file changed');
+});
+
+//POST data from wifi page
+app.post('/wifi',function(req,res){
+  var id = req.body.id;
+  var pas = req.body.pas;
+
+  command = 'sudo wpa_passphrase '+id+' '+pas+' >> /etc/wpa_supplicant/wpa_supplicant.conf';
+  console.log(command);
+  exec(command,function(err,stdout,stderr){
+    if(err){
+      console.log(err);
+      res.send('Save Wifi Info Failed');
+    }else{
+      console.log(stdout);
+      res.send('Save Wifi Info Sucess');
+    }
+
+  });
+
 });
 
 /* ---------------------------
