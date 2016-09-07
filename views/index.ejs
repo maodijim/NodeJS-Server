@@ -3,77 +3,197 @@
 <head>
   <title><%= title%></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' href='/stylesheets/style.css'/>
   <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+  <link rel='stylesheet' href='/stylesheets/jquery-ui.min.css'/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <script src="/javascripts/jquery-ui.min.js"></script>
   <script src="/javascripts/bootstrap.js"></script>
   <script src="/javascripts/notify.js"></script>
+  <script src="/javascripts/typed.js"></script>
 </head>
 <body>
   <div class="container-fluid">
-    <div class="nav navbar">
-      <a href="wifi" class="navbar-brand">
-        <img src="logo35.png" alt="Brand" />
+    <div class="nav navbar navbar-inverse">
+      <a href="wifi" class="navbar-brand" >
+        <img  alt="Brand" id="brand" src="logo35.png"/>
       </a>
     </div>
 
     <h1>Wireless Power Control Unit </h1>
-    <button type="button" name="button" class="btn btn-info dropdown-toggle pull-right" data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>+</button>
+
+
     <!--<p>Welcome to <%= title %></p>-->
   </div>
   <div class="container-fluid">
-
     <table class="table">
-
       <tr>
-        <th>Device<th>
-        </tr>
+        <th>Device
+          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-option-horizontal" style="margin-right:5px;" id="show-code" title="Display Code"></button>
+          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-minus-sign" style="margin-left:5px; margin-right:5px;" id="minus"></button>
+          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#mymodal"></button><th>
+          </tr>
+          <% for(var i=0; i<deviceNum;i++){%>
+            <% if(i%2 == 0) var color='success';else color = 'danger';%>
+            <tr class='<%= color%>' id='tr<%=i%>'><td>
+            <div class="form-group">
+            <input type='textbox' id='textbox<%=i%>' class="form-control" style="">
+            <button type="button" class="btn btn-danger btn-xs round glyphicon glyphicon-remove-sign pull-right" style="display:none;" id="delete<%=i%>"></button>
+            <pre class="pull-right" style="display:none;">OFF:<%=output.devices[i].codeOFF%></pre>
+            <pre class="pull-right" style="display:none;">ON:<%=output.devices[i].codeON%></pre>
+            </div>
 
-        <% for(var i=0; i<deviceNum;i++){%>
-          <% if(i%2 == 0) var color='success';else color = 'danger';%>
-          <tr class='<%= color%>'><td>
-          <div class="form-group">
-          <label for=""></label>
-          <input type='textbox' value='Device <%= i%>' id='textbox'>
+            <label class="switch">
+
+            <input class="checkbox<%=i%>" type="checkbox">
+            <div class="slider round"></div>
+            </label></td></tr>
+            <script>
+            $(window).load(function(){
+              var i =0;
+              var status = '<%= output.devices[i].status%>';
+              if(status == "ON"){
+                $('.checkbox<%= i%>').attr('checked','checked');
+              }else if(status == "OFF"){
+                $('.checkbox<%= i%>').removeAttr('checked');
+              }
+
+              $('#textbox<%=i%>').typed({strings:['<%=output.devices[i].nickname%>'],typeSpeed:20});
+            });
+
+            //Delete Element
+            $('#delete<%=i%>').click(function(){
+              $.post('/delete',{device:<%=i%>},function(data){
+                if(data == 'success') {
+                  $.notify('Deleted','success');
+                  setTimeout(function(){
+                    $('#tr<%=i%>').toggle('fold');
+                  },100);
+                }
+                else $.notify('Delete Failed','Error()');
+              });
+            });
+
+            //Device Name Change
+            $('#textbox<%=i%>').change(function(){
+              var name = $('#textbox<%=i%>').val();
+              $.post('/name',{device:<%=i%>,newName:name})
+              $.notify("Device Name Changed","success");
+            });
+
+            //Device Status
+            $('.checkbox<%=i%>').change(function(){
+              var btn = $('input');
+              btn.prop('disabled',true);
+              window.setTimeout(function(){
+                btn.prop('disabled',false);
+              },500);
+              $.notify("Signal Sent Please wait",{className:'success', showDuration:250, hideDuration:600, autoHideDelay: 3000, });
+              if(this.checked){
+                $.post('/',{status:'ON',device:<%=i%>});
+              }else{
+                $.post('/',{status:'OFF',device:<%=i%>});
+              }
+            });
+
+
+            </script>
+
+            <%}%>
+          </table>
+
+
+
+          <!--Modal-->
+          <div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">New Device</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="row" style="margin-top:5px;">
+                      <label class="col-xs-12">  Device Number: <%=deviceNum%></label><br>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                      <label class="col-xs-4">Device Name:</label>
+                      <div class="col-xs-6">
+                        <input type="textbox" class="form-control" style="height:25px" id="deviceName">
+                      </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                      <label class="col-xs-4">TurnOn Code: </label>
+                      <div class="col-xs-6">
+                        <input type="textbox" class="form-control" style="height:25px" id="onCode">
+                      </div>
+                      <button type="button" class="btn btn-warning btn-xs glyphicon glyphicon-search" id="codeOn"></button>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                      <strong class="col-xs-4">TurnOFF Code:</strong>
+                      <div class="col-xs-6">
+                        <input type="textbox" class="form-control" style="height:25px" id="offCode">
+                      </div>
+                      <button type="button" class="btn btn-warning btn-xs glyphicon glyphicon-search" id="codeOff"></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <label class="switch">
+          <div class="show">
 
-          <input class="checkbox<%=i%>" type="checkbox">
-          <div class="slider round"></div>
-          </label></td></tr>
+          </div>
           <script>
-          $(window).load(function(){
-            var i =0;
-            var status = '<%= output.devices[i].status%>';
-            if(status == "ON"){
-              $('.checkbox<%= i%>').attr('checked','checked');
-            }else if(status == "OFF"){
-              $('.checkbox<%= i%>').removeAttr('checked');
-            }
-
-
+          //Show Device code
+          $('#show-code').click(function(){
+            $('pre').toggle('fast','swing');
           });
 
-          $('.checkbox<%=i%>').change(function(){
-            var btn = $('input');
-            btn.prop('disabled',true);
-            window.setTimeout(function(){
-              btn.prop('disabled',false);
-            },1000);
-            $.notify("Signal Sent Please wait",{className:'success', showDuration:600, hideDuration:600, autoHideDelay: 3000, });
-            if(this.checked){
-              //$('.result<%=i%>').text('checked');
-              $.post('/',{status:'ON',device:<%=i%>}/*,function(result){$('#return').html(result)}*/);
-            }else{
-              //$('.result<%=i%>').text('unchecked');
-              $.post('/',{status:'OFF',device:<%=i%>});
-            }
+          $('#codeOn').click(function(){
+            $('#codeOn').prop('disabled',true);
+            setTimeout(function(){
+              $('#codeOn').prop('disabled',false);
+            },10000);
+            $.notify("You have 10 sec search code",{position:"top",className:"warn",autoHideDelay:10000});
+            $.post('/searchcode',function(data){
+              $('#onCode').typed({strings:[data],typeSpeed:20});
+            });
+          });
+
+          $('#codeOff').click(function(){
+            $('#codeOff').prop('disabled',true);
+            setTimeout(function(){
+              $('#codeOff').prop('disabled',false);
+            },10000);
+            $.notify("You have 10 sec search code",{position:"top",className:"warn",autoHideDelay:10000});
+            $.post('/searchcode',function(data){
+            $('#offCode').typed({strings:[data],typeSpeed:20});
+            });
+          });
+          $('#saveChanges').click(function(){
+            var deviceNum = <%=deviceNum%>;
+            var deviceName = $('#deviceName').val();
+            var onCode = $('#onCode').val();
+            var offCode = $('#offCode').val();
+            $.post('/add',{device:deviceNum, oncode:onCode, offcode:offCode, nickName:deviceName},function(data){
+              if (data == 'success') setTimeout(function(){history.go(0);},2000);
+            });
+            $.notify("New Device Saved","success");
+          });
+
+          $('#minus').click(function(){
+            $('[id^=delete]').toggle(250);
           });
           </script>
-
-          <%}%>
-        </table>
-      </div>
-    </body>
-    </html>
+        </body>
+        </html>

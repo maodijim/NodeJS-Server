@@ -3,7 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 
 
-/* GET about page. */
+/* GET Index page. */
 router.get('/', function(req, res, next) {
   var file = fs.readFileSync('./file','utf8');
   var data = JSON.parse(file);

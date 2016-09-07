@@ -1,8 +1,8 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-
+  overflow: hidden;
 }
+
 ul{
   display: inline;
 }
@@ -12,23 +12,33 @@ th{
   font-size: 1.5em;
 }
 
+table{
+  margin:0px !important;
+  overflow: hidden;
+  width: 100vw;
+}
+tr{
+  width: 100vw;
+  overflow: hidden;
+}
+td{
+  display: inline-block;
+  width: 100vw;
+}
+
 nav{
   font-size: 1.5em;
 }
 
-#textbox{
-  width:auto;
-  margin-top: -25px;
+input[id^=textbox]{
+  width:60%;
+  margin-top: 5px;
   font-size: 1.5em;
   border-color: transparent;
 }
 
 a {
   color: #00B7FF;
-}
-.container-fluid{
-  /*text-align: center;*/
-  margin-bottom: 15px;
 }
 
 
@@ -51,8 +61,8 @@ a {
   right:0;
   bottom:0;
   background-color: #ccc;
-  -webkit-transistion:.5s;
-  transition: .5s
+  -webkit-transistion:.3s;
+  transition: .3s
 }
 
 .slider:before{
@@ -63,8 +73,8 @@ a {
   left: 5px;
   bottom: 5px;
   background-color: white;
-  -webkit-transition: .5s;
-  transition: .5s;
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
 input:checked + .slider{
@@ -97,7 +107,19 @@ input:checked + .slider:before{
   margin-bottom: 2vw;
 }
 @media(min-width: 768px){
-  input#textbox{
+  input[id^=textbox]{
+    width: 25%;
     margin-top:1px;
   }
+}
+
+.container-fluid {
+  width: 100vw;
+  margin: 0px;
+  padding: 0px;
+}
+
+.round,.round:focus{
+  outline-style: none;
+  border-radius: 50%;
 }

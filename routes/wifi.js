@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 const exec = require('child_process').exec;
 
 
-/* GET about page. */
+/* GET WIFI page. */
 router.get('/', function(req, res, next) {
   var wifi =  exec('sudo iwlist wlan0 scan | egrep "ESSID"',function(err,stdout,stderr){
     if(err) console.log(err);

@@ -20,9 +20,18 @@ data.devices[2]["nickname"] = '';
 //console.log(data);
 var newData = JSON.stringify(data);*/
 
-console.log(data.devices[0].codeON);
-//var newdata = JSON.parse('{"device":"$device","status":"$status","codeON":"1381683","codeOFF":"1381692","nickname":""}');
-//data.devices.push(newdata);
+//console.log(data.devices[0].codeON);
+//var network = 'AndyiPhone(2)';
+//console.log(network.replace(/(|)/g,'\$&'));
+var device = 45,
+    status = 'OFF',
+    codeOn = 45645163,
+    codeOff = 4564564,
+    nickname = 'happy';
+var newdata = JSON.parse('{"device":"'+device+'","status":"'+status+'","codeON":"'+codeOn+'","codeOFF":"'+codeOff+'","nickname":"'+nickname+'"}');
+data.devices.push(newdata);
+data.devices.splice(3);
+console.log(data.devices[1].codeON);
 //data.devices.pop(data);
 //var add = JSON.stringify(data);
 /*fs.writeFile('./file',newData,(err) =>{

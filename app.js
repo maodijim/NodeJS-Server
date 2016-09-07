@@ -1,5 +1,6 @@
 var express = require('express');
-const exec = require('child_process').exec;
+const exec = require('child_process').exec,
+      spawn = require('child_process').spawn;
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -23,7 +24,8 @@ file = null,
 readData = null,
 count = null,
 code = null,
-command = null;
+command = null,
+wpa_config = '/etc/wpa_supplicant/wpa_supplicant.conf';
 /* Custom Functions Go here
 ---------------------------*/
 //POST data from switch status
@@ -33,34 +35,32 @@ app.post('/',function(request,response){
   file = fs.readFileSync('file','utf8');
   readData = JSON.parse(file);
   //  var file = 'file'+request.body.device;
-  if(deviceStatus == 'ON'){
-    readData.devices[deviceNum].status = 'ON';
-    var writeData = JSON.stringify(readData);
-    //  count = readData.devices.length;
-    code = readData.devices[deviceNum].codeON;
-    command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
+  if(readData.length != 0 ){
+    if(deviceStatus == 'ON'){
+      readData.devices[deviceNum].status = 'ON';
+      var writeData = JSON.stringify(readData);
+      //  count = readData.devices.length;
+      code = readData.devices[deviceNum].codeON;
+      command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
 
-    exec(command,function(error,stdout,stderr){
-      if(writeData !== ""){
-        fs.writeFile('file',writeData,(err) => {
-          if (err) throw err;
+      exec(command,function(error,stdout,stderr){
+          fs.writeFile('file',writeData,(err) => {
+            if (err) throw err;
+          });
 
-        });
-      }
-    });
-  }else if(deviceStatus == 'OFF'){
-    readData.devices[deviceNum].status = 'OFF';
-    var writeData = JSON.stringify(readData);
-    //count = readData.devices.length;
-    code = readData.devices[deviceNum].codeOFF;
-    command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 188';
-    exec(command,function(error,stdout,stderr){
-      if(writeData !== ""){
-        fs.writeFile('file',writeData,(err) => {
-          if (err) throw err;
-        });
-      }
-    });
+      });
+    }else if(deviceStatus == 'OFF'){
+      readData.devices[deviceNum].status = 'OFF';
+      var writeData = JSON.stringify(readData);
+      //count = readData.devices.length;
+      code = readData.devices[deviceNum].codeOFF;
+      command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 188';
+      exec(command,function(error,stdout,stderr){
+          fs.writeFile('file',writeData,(err) => {
+            if (err) throw err;
+          });
+      });
+    }
   }
   response.send('file changed');
 });
@@ -70,14 +70,14 @@ app.post('/wifi',function(req,res){
   var id = req.body.id;
   var pas = req.body.pas;
 
-  command = 'sudo wpa_passphrase '+id+' '+pas+' >> /etc/wpa_supplicant/wpa_supplicant.conf';
-  console.log(command);
+  command = 'sudo wpa_passphrase "'+id+'" "'+pas+'" >> '+wpa_config;
+  //console.log(command);
   exec(command,function(err,stdout,stderr){
     if(err){
-      console.log(err);
+      //console.log(err);
       res.send('Save Wifi Info Failed');
     }else{
-      console.log(stdout);
+      //  console.log(stdout);
       res.send('Save Wifi Info Sucess');
     }
 
@@ -85,6 +85,69 @@ app.post('/wifi',function(req,res){
 
 });
 
+//POST data from namechange
+app.post('/name',function(req,res){
+  var deviceNum = req.body.device;
+  var newName = req.body.newName;
+  console.log(deviceNum);
+  file = fs.readFileSync('file','utf8');
+  readData = JSON.parse(file);
+  if(readData.length != 0 ){
+    readData.devices[deviceNum].nickname = newName;
+    writeData = JSON.stringify(readData);
+    fs.writeFile('file',writeData,(err)=>{if(err)throw err;});
+    res.send('success');
+  }
+});
+
+app.post('/add',function(req,res){
+  var deviceNum = 'device'+req.body.device;
+  var nickName = req.body.nickName;
+  var onCode = req.body.oncode;
+  var offCode = req.body.offcode;
+  file = fs.readFileSync('file','utf8');
+
+  readData = JSON.parse(file);
+  if(nickName.length < 1) nickName = deviceNum;
+  var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+nickName+'"}');
+  readData.devices.push(newdata);
+  var add = JSON.stringify(readData);
+  fs.writeFile('file',add,(err) => {
+    if (err) throw err;
+  });
+
+  res.send('success');
+});
+
+//Return search result
+app.post('/searchcode',function(req,res){
+  command = 'sudo /home/pi/433Utils/RPi_utils/RFSniffer1';
+  var child = spawn('sudo', ['/home/pi/433Utils/RPi_utils/RFSniffer1']);
+
+  child.stdout.on('data',(data)=>{
+    res.send(data.toString('utf8').substring(9));
+    //console.log(data.toString('utf8').substring(9));
+  })
+
+  setTimeout(function(){
+    child.kill();
+  },10000);
+});
+
+//Delete Element
+app.post('/delete',function(req,res){
+  deviceNum = req.body.device;
+  file = fs.readFileSync('file','utf8');
+  readData = JSON.parse(file);
+  if(readData.length !=0 ){
+    readData.devices.splice(deviceNum,1);
+    var add = JSON.stringify(readData);
+    fs.writeFile('file',add,(err)=>{
+      if(err) console.log(err);
+      res.send('success');
+    })
+  }
+});
 /* ---------------------------
 Custom Functions End here */
 
