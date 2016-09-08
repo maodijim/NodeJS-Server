@@ -49,6 +49,7 @@
             <div class="slider round"></div>
             </label></td></tr>
             <script>
+            var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
             $(window).load(function(){
               var i =0;
               var status = '<%= output.devices[i].status%>';
@@ -58,7 +59,7 @@
                 $('.checkbox<%= i%>').removeAttr('checked');
               }
 
-              $('#textbox<%=i%>').typed({strings:['<%=output.devices[i].nickname%>'],typeSpeed:20});
+              $('#textbox<%=i%>').typed({strings:['<%=output.devices[i].nickname%>'],typeSpeed:50});
             });
 
             //Delete Element
@@ -77,7 +78,9 @@
             //Device Name Change
             $('#textbox<%=i%>').change(function(){
               var name = $('#textbox<%=i%>').val();
-              $.post('/name',{device:<%=i%>,newName:name})
+              $.post('/name',{device:<%=i%>,newName:name});
+              //Send Status to Server
+              $.post(url,{newName:name,deviceNum:<%=i%>});
               $.notify("Device Name Changed","success");
             });
 
@@ -91,8 +94,12 @@
               $.notify("Signal Sent Please wait",{className:'success', showDuration:250, hideDuration:600, autoHideDelay: 3000, });
               if(this.checked){
                 $.post('/',{status:'ON',device:<%=i%>});
+                //Send Status to Server
+                $.post(url,{status:'ON',deviceNum:<%=i%>});
               }else{
                 $.post('/',{status:'OFF',device:<%=i%>});
+                //Send Status to Server
+                $.post(url,{status:'OFF',deviceNum:<%=i%>});
               }
             });
 

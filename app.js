@@ -2,6 +2,7 @@ var express = require('express');
 const exec = require('child_process').exec,
       spawn = require('child_process').spawn;
 var path = require('path');
+var request = require('request');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -9,6 +10,7 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var wifiPage = require('./routes/wifi');
 var routes = require('./routes/index');
+var async = require('async');
 //var users = require('./routes/users');
 //var about = require('./routes/about');
 //var test = require('./routes/test');
@@ -26,15 +28,16 @@ count = null,
 code = null,
 command = null,
 wpa_config = '/etc/wpa_supplicant/wpa_supplicant.conf';
+var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
 /* Custom Functions Go here
 ---------------------------*/
 //POST data from switch status
-app.post('/',function(request,response){
-  deviceStatus = request.body.status;
-  deviceNum = request.body.device;
+app.post('/',function(req,response){
+  deviceStatus = req.body.status;
+  deviceNum = req.body.device;
   file = fs.readFileSync('file','utf8');
   readData = JSON.parse(file);
-  //  var file = 'file'+request.body.device;
+  //  var file = 'file'+req.body.device;
   if(readData.length != 0 ){
     if(deviceStatus == 'ON'){
       readData.devices[deviceNum].status = 'ON';
@@ -42,19 +45,17 @@ app.post('/',function(request,response){
       //  count = readData.devices.length;
       code = readData.devices[deviceNum].codeON;
       command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
-
       exec(command,function(error,stdout,stderr){
           fs.writeFile('file',writeData,(err) => {
             if (err) throw err;
           });
-
       });
     }else if(deviceStatus == 'OFF'){
       readData.devices[deviceNum].status = 'OFF';
       var writeData = JSON.stringify(readData);
       //count = readData.devices.length;
       code = readData.devices[deviceNum].codeOFF;
-      command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 188';
+      command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 120';
       exec(command,function(error,stdout,stderr){
           fs.writeFile('file',writeData,(err) => {
             if (err) throw err;
@@ -62,7 +63,7 @@ app.post('/',function(request,response){
       });
     }
   }
-  response.send('file changed');
+  response.send('file');
 });
 
 //POST data from wifi page
@@ -90,16 +91,21 @@ app.post('/name',function(req,res){
   var deviceNum = req.body.device;
   var newName = req.body.newName;
   console.log(deviceNum);
-  file = fs.readFileSync('file','utf8');
-  readData = JSON.parse(file);
-  if(readData.length != 0 ){
-    readData.devices[deviceNum].nickname = newName;
-    writeData = JSON.stringify(readData);
-    fs.writeFile('file',writeData,(err)=>{if(err)throw err;});
-    res.send('success');
-  }
+  async.series({
+    file = fs.readFileSync('file','utf8');
+    readData = JSON.parse(file);
+    if(readData.length != 0 ){
+      readData.devices[deviceNum].nickname = newName;
+      request.post(url).form({deviceNum:deviceNum,newName:newName});
+      writeData = JSON.stringify(readData);
+      fs.writeFile('file',writeData,(err)=>{if(err)throw err;});
+      res.send('success');
+    }
+  });
+
 });
 
+//POST dat for Add New Device
 app.post('/add',function(req,res){
   var deviceNum = 'device'+req.body.device;
   var nickName = req.body.nickName;

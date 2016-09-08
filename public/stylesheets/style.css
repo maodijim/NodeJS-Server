@@ -99,17 +99,26 @@ input:checked + .slider:before{
   border-radius: 50%;
 }
 
-.col-md-12{
+.col-xs-12{
   margin-bottom: 1vw;
 }
 
 #refresh{
   margin-bottom: 2vw;
+  
 }
+
+
+
 @media(min-width: 768px){
   input[id^=textbox]{
     width: 25%;
     margin-top:1px;
+  }
+}
+
+@media(max-width: 768px){
+  select{
   }
 }
 
