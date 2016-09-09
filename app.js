@@ -11,15 +11,15 @@ var bodyParser = require('body-parser');
 var wifiPage = require('./routes/wifi');
 var routes = require('./routes/index');
 var async = require('async');
+var functions = require('./functions');
 //var users = require('./routes/users');
 //var about = require('./routes/about');
 //var test = require('./routes/test');
-var app = express();
 
+var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 var deviceStatus = null,
 deviceNum = null,
 file = null,
@@ -28,7 +28,7 @@ count = null,
 code = null,
 command = null,
 wpa_config = '/etc/wpa_supplicant/wpa_supplicant.conf';
-var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
+var url = 'http://wireless.worldelectronicaccessory.com/name.php';
 /* Custom Functions Go here
 ---------------------------*/
 //POST data from switch status
@@ -91,7 +91,6 @@ app.post('/name',function(req,res){
   var deviceNum = req.body.device;
   var newName = req.body.newName;
   console.log(deviceNum);
-  async.series({
     file = fs.readFileSync('file','utf8');
     readData = JSON.parse(file);
     if(readData.length != 0 ){
@@ -102,8 +101,6 @@ app.post('/name',function(req,res){
       res.send('success');
     }
   });
-
-});
 
 //POST dat for Add New Device
 app.post('/add',function(req,res){

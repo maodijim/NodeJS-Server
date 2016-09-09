@@ -31,10 +31,11 @@
         <th>Device
           <button type="button" class="btn btn-info pull-right glyphicon glyphicon-option-horizontal" style="margin-right:5px;" id="show-code" title="Display Code"></button>
           <button type="button" class="btn btn-info pull-right glyphicon glyphicon-minus-sign" style="margin-left:5px; margin-right:5px;" id="minus"></button>
-          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#mymodal"></button><th>
+          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#mymodal"></button>
+        </th>
           </tr>
           <% for(var i=0; i<deviceNum;i++){%>
-            <% if(i%2 == 0) var color='success';else color = 'danger';%>
+            <% if(i%2 == 0) var color='info';else color = 'warning';%>
             <tr class='<%= color%>' id='tr<%=i%>'><td>
             <div class="form-group">
             <input type='textbox' id='textbox<%=i%>' class="form-control" style="">

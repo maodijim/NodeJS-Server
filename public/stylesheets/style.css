@@ -13,9 +13,9 @@ th{
 }
 
 table{
-  margin:0px !important;
-  overflow: hidden;
   width: 100vw;
+  margin: 0;
+  overflow: hidden;
 }
 tr{
   width: 100vw;
@@ -105,7 +105,7 @@ input:checked + .slider:before{
 
 #refresh{
   margin-bottom: 2vw;
-  
+
 }
 
 
@@ -121,12 +121,12 @@ input:checked + .slider:before{
   select{
   }
 }
-
-.container-fluid {
-  width: 100vw;
-  margin: 0px;
-  padding: 0px;
+.container-fluid{
+    width: 100vw;
+    margin: 0;
+    padding: 0;
 }
+
 
 .round,.round:focus{
   outline-style: none;
