@@ -17,7 +17,6 @@ var functions = require('./functions');
 //var test = require('./routes/test');
 
 var app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var deviceStatus = null,
@@ -28,9 +27,10 @@ count = null,
 code = null,
 command = null,
 wpa_config = '/etc/wpa_supplicant/wpa_supplicant.conf';
-var url = 'http://wireless.worldelectronicaccessory.com/name.php';
+var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
 /* Custom Functions Go here
 ---------------------------*/
+
 //POST data from switch status
 app.post('/',function(req,response){
   deviceStatus = req.body.status;
@@ -109,7 +109,6 @@ app.post('/add',function(req,res){
   var onCode = req.body.oncode;
   var offCode = req.body.offcode;
   file = fs.readFileSync('file','utf8');
-
   readData = JSON.parse(file);
   if(nickName.length < 1) nickName = deviceNum;
   var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+nickName+'"}');

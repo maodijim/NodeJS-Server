@@ -8,7 +8,6 @@ var functions = require('../functions');
 
 /* GET Index page. */
 router.get('/', function(req, res, next) {
-  functions.checkFile();
   var file = fs.readFileSync('./file','utf8');
   var data = JSON.parse(file);
   var count = data.devices.length;
