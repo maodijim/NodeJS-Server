@@ -22,7 +22,15 @@ request.post({url:'http://wireless.worldelectronicaccessory.com/test',form:{vali
 });
 */
 //Check file exists
-fs.stat('file',function(err,stat){
+var file = fs.readFileSync('file','utf8');
+var data = JSON.parse(file);
+var id = data.id;
+console.log(id);
+var iv = crypto.randomBytes(16);
+var output = functions.encryt(id,iv);
+console.log(output);
+
+/*fs.stat('file',function(err,stat){
   if(err == null){
     console.log("Yes File Exist");
   }else if(err.code == 'ENOENT')
@@ -40,7 +48,7 @@ var iv = crypto.randomBytes(16);
 var input = 'this is kjlkjl';
 var output = functions.encryt('happy',iv);
 console.log(output);
-
+*/
 /* Encryt Demo
 var status = 'true';
 var verify = crypto.createHash('md5').update(status).digest('hex');

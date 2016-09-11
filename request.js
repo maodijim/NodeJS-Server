@@ -4,18 +4,26 @@ var fs = require('fs');
 var request = require('request');
 var bodyParser = require('body-parser');
 const exec = require('child_process').exec;
+var crypto = require("crypto");
+var functions = require('./functions');
 
 setInterval(function(){
   var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
   var file = fs.readFileSync('./file','utf8');
   var data = JSON.parse(file);
   var newData =[];
+  var id = data.id;
+  var iv = crypto.randomBytes(16);
+  var iv1 = iv.toString('hex');
+  var uid = functions.encryt(id,iv);
 
+
+if(data.devices.length > 0){
   for(var i=0; i < data.devices.length;i++){
     newData.push({device:data.devices[i].device,status:data.devices[i].status,deviceNick:data.devices[i].nickname});
   };
 
-  request.post({url:url,form:{data:newData}},function(err,res,body){
+  request.post({url:url,form:{data:newData,uid:uid,iv:iv1}},function(err,res,body){
 
     if (!err && res.statusCode === 200) {
       if(body == "Match"){
@@ -51,4 +59,5 @@ setInterval(function(){
   }
 }
 });
+}
 },4000);
