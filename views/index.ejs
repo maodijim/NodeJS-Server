@@ -71,7 +71,7 @@
                     $('#tr<%=i%>').toggle('fold');
                   },100);
                   //Server Code
-                  //$.post(url,{action:'delete',deviceNum:<%=i%>,uid:<%=uid%>,iv:<%=iv%>});
+                  $.post(url,{action:'delete',deviceNum:'<%=i%>',uid:'<%=uid%>',iv:'<%=iv%>'});
                 }
                 else $.notify('Delete Failed','Error()');
               });
@@ -199,7 +199,7 @@
               if (data == 'success') setTimeout(function(){history.go(0);},2000);
             });
             //Add device to Server
-            $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceName,uid:<%=uid%>,iv:<%=iv%>});
+            $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceName,uid:'<%=uid%>',iv:'<%=iv%>'});
             $.notify("New Device Saved","success");
           });
 
