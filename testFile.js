@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var util = require('util');
 var request = require('request');
 var bodyParser = require('body-parser');
 var functions = require('./functions');
@@ -21,14 +22,18 @@ request.post({url:'http://wireless.worldelectronicaccessory.com/test',form:{vali
   console.log(body);
 });
 */
-//Check file exists
-var file = fs.readFileSync('file','utf8');
-var data = JSON.parse(file);
-var id = data.id;
-console.log(id);
-var iv = crypto.randomBytes(16);
-var output = functions.encryt(id,iv);
-console.log(output);
+
+
+var last = fs.statSync('file');
+var mtime = Date.parse(util.inspect(last.mtime));
+var date = Date.parse(new Date());
+if (date > mtime+1000*60*5)
+  console.log('over 5 mins');
+else
+  console.log('less than 5 mins');
+  console.log(mtime);
+  console.log(date);
+
 
 /*fs.stat('file',function(err,stat){
   if(err == null){

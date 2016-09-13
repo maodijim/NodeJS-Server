@@ -72,6 +72,7 @@ app.post('/wifi',function(req,res){
   var pas = req.body.pas;
 
   command = 'sudo wpa_passphrase "'+id+'" "'+pas+'" >> '+wpa_config;
+  var startWifi = 'python wifiCheck.py start';
   //console.log(command);
   exec(command,function(err,stdout,stderr){
     if(err){
@@ -81,9 +82,14 @@ app.post('/wifi',function(req,res){
       //  console.log(stdout);
       res.send('Save Wifi Info Sucess');
     }
-
   });
-
+  //Start wifi Connection
+  exec(command,function(err,stdout,stderr){
+    if(err){
+      //console.log(err);
+      res.send('Save Wifi Info Failed');
+    }
+  });
 });
 
 //POST data from namechange
@@ -110,7 +116,7 @@ app.post('/add',function(req,res){
   var offCode = req.body.offcode;
   file = fs.readFileSync('file','utf8');
   readData = JSON.parse(file);
-  if(nickName.length < 1) nickName = deviceNum;
+  if(nickName.length == 0) nickName = deviceNum;
   var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+nickName+'"}');
   readData.devices.push(newdata);
   var add = JSON.stringify(readData);

@@ -11,6 +11,9 @@
   <script src="/javascripts/bootstrap.js"></script>
   <script src="/javascripts/notify.js"></script>
   <script src="/javascripts/typed.js"></script>
+  <script>
+    var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
+  </script>
 </head>
 <body>
   <div class="container-fluid">
@@ -50,7 +53,6 @@
             <div class="slider round"></div>
             </label></td></tr>
             <script>
-            var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
             $(window).load(function(){
               var status = '<%= output.devices[i].status%>';
               if(status == "ON"){
@@ -72,6 +74,7 @@
                   },100);
                   //Server Code
                   $.post(url,{action:'delete',deviceNum:'<%=i%>',uid:'<%=uid%>',iv:'<%=iv%>'});
+                  //setTimeout(function(){history.go(0);},1000);
                 }
                 else $.notify('Delete Failed','Error()');
               });
@@ -93,7 +96,7 @@
               btn.prop('disabled',true);
               window.setTimeout(function(){
                 btn.prop('disabled',false);
-              },500);
+              },1000);
               $.notify("Signal Sent Please wait",{className:'success', showDuration:250, hideDuration:600, autoHideDelay: 3000, });
               if(this.checked){
                 $.post('/',{status:'ON',device:<%=i%>});
@@ -196,11 +199,14 @@
             var onCode = $('#onCode').val();
             var offCode = $('#offCode').val();
             $.post('/add',{device:deviceNum, oncode:onCode, offcode:offCode, nickName:deviceName},function(data){
-              if (data == 'success') setTimeout(function(){history.go(0);},2000);
+              if (data == 'success') {
+                setTimeout(function(){history.go(0);},2000);
+                $.notify("New Device Saved","success");
+                //Add device to Server
+                $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceName,uid:'<%=uid%>',iv:'<%=iv%>'});
+              }
             });
-            //Add device to Server
-            $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceName,uid:'<%=uid%>',iv:'<%=iv%>'});
-            $.notify("New Device Saved","success");
+
           });
 
           $('#minus').click(function(){
