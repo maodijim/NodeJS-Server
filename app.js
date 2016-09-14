@@ -84,10 +84,10 @@ app.post('/wifi',function(req,res){
     }
   });
   //Start wifi Connection
-  exec(command,function(err,stdout,stderr){
+  exec(startWifi,function(err,stdout,stderr){
     if(err){
       //console.log(err);
-      res.send('Save Wifi Info Failed');
+      res.send('Start Wifi Failed');
     }
   });
 });

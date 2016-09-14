@@ -1,6 +1,13 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  
+
+}
+
+
+
+.container-fluid{
+    margin: 0;
+    padding: 0;
 }
 
 ul{
@@ -8,22 +15,34 @@ ul{
 }
 h1{ text-align: center;}
 
-th{
-  font-size: 1.5em;
+tbody{
+  width: 100%;
+
 }
 
-table{
-  width: 100vw;
+th{
+  font-size: 1.5em;
   margin: 0;
-  overflow: hidden;
+  padding: 0;
+  width: 100vw;
+}
+
+.table>tbody>tr>td{
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 tr{
-  width: 100vw;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 td{
+  margin: 0;
+  padding: 0;
   display: inline-block;
-  width: 100vw;
+  width: 100%;
 }
 
 nav{
@@ -115,16 +134,6 @@ input:checked + .slider:before{
     width: 25%;
     margin-top:1px;
   }
-}
-
-@media(max-width: 768px){
-  select{
-  }
-}
-.container-fluid{
-    width: 100vw;
-    margin: 0;
-    padding: 0;
 }
 
 
