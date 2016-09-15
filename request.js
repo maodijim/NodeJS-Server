@@ -50,9 +50,9 @@ var myfunction = function(){
                 data.devices[i].status = json[i].status;
                 var writeData = JSON.stringify(data);
                 if (data.devices[i].status == "ON"){
-                  var command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ data.devices[i].codeON +' 0 120';
+                  var command = 'sudo ./codesend '+ data.devices[i].codeON +' 0 120';
                 }else{
-                  command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ data.devices[i].codeOFF +' 0 120';
+                  command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 0 120';
                 }
                 exec(command,function(error,stdout,stderr){
                   fs.writeFile('file',writeData,(err) => {

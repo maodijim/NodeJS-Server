@@ -44,7 +44,7 @@ app.post('/',function(req,response){
       var writeData = JSON.stringify(readData);
       //  count = readData.devices.length;
       code = readData.devices[deviceNum].codeON;
-      command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+code+' 0 188';
+      command = 'sudo ./codesend '+code+' 0 188';
       exec(command,function(error,stdout,stderr){
           fs.writeFile('file',writeData,(err) => {
             if (err) throw err;
@@ -55,7 +55,7 @@ app.post('/',function(req,response){
       var writeData = JSON.stringify(readData);
       //count = readData.devices.length;
       code = readData.devices[deviceNum].codeOFF;
-      command = 'sudo /home/pi/433Utils/RPi_utils/codesend '+ code +' 0 120';
+      command = 'sudo ./codesend '+ code +' 0 120';
       exec(command,function(error,stdout,stderr){
           fs.writeFile('file',writeData,(err) => {
             if (err) throw err;
@@ -115,7 +115,7 @@ app.post('/add',function(req,res){
   var offCode = req.body.offcode;
   file = fs.readFileSync('file','utf8');
   readData = JSON.parse(file);
-  var newdata = JSON.parse({"device":deviceNum,"status":"OFF","codeON":onCode,"codeOFF":offCode,"nickname":deviceNum});
+  var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+deviceNum+'"}');
   readData.devices.push(newdata);
   var add = JSON.stringify(readData);
   fs.writeFile('file',add,'utf8',(err) => {
@@ -127,8 +127,8 @@ app.post('/add',function(req,res){
 
 //Return search result
 app.post('/searchcode',function(req,res){
-  command = 'sudo /home/pi/433Utils/RPi_utils/RFSniffer1';
-  var child = spawn('sudo', ['/home/pi/433Utils/RPi_utils/RFSniffer1']);
+  command = 'sudo ./RFSniffer1';
+  var child = spawn('sudo', ['./RFSniffer1']);
 
   child.stdout.on('data',(data)=>{
     res.send(data.toString('utf8').substring(9));
