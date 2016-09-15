@@ -1,3 +1,4 @@
+//Long Polling Request
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
@@ -8,18 +9,16 @@ const exec = require('child_process').exec;
 var crypto = require("crypto");
 var functions = require('./functions');
 var timeFrame = 1000;
-
-// Recursive Function to get request from server
 var myfunction = function(){
-/*  clearInterval(sendRequest);
-  var lastModified = fs.statSync('file');
+  /*var lastModified = fs.statSync('file');
   var mtime = Date.parse(util.inspect(lastModified.mtime));
   var date = Date.parse(new Date());
   if (date > mtime+1000*60)
-    timeFrame= 1000;
+    timeFrame= 30000;
   else
-    timeFrame = 1000;
+    timeFrame = 30000;
 */
+
   var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
   var file = fs.readFileSync('./file','utf8');
   var data = JSON.parse(file);
@@ -36,12 +35,7 @@ var myfunction = function(){
       newData.push({device:data.devices[i].device,status:data.devices[i].status,deviceNick:data.devices[i].nickname});
     };
 
-    request.post({url:url,form:{data:newData,uid:uid,iv:iv1}},function(err,res,body){
-
-      if (!err && res.statusCode === 200) {
-        if(body == "Match"){
-          //console.log("Do Nothing");
-        }else{
+    request.post({timeout:20000,url:url,form:{data:newData,uid:uid,iv:iv1}},function(err,res,body){
           var json = JSON.parse(body);
           if(data.devices.length == json.length){
             for(var i=0;i<data.devices.length;i++){
@@ -65,17 +59,18 @@ var myfunction = function(){
                 data.devices[i].nickname = json[i].deviceNick;
                 var writeData = JSON.stringify(data);
                 fs.writeFile('file',writeData,(err) => {
-                  if (err) console.log(err);;
+                  if (err) console.log(err);
                 });
               }
-
             }
           }
-        }
-      }
+
+
     });
   }
-  //sendRequest = setInterval(myfunction,timeFrame);
 };
+
+
+
 
 var sendRequest = setInterval(myfunction,timeFrame);

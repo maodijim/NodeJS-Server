@@ -22,9 +22,25 @@ request.post({url:'http://wireless.worldelectronicaccessory.com/test',form:{vali
   console.log(body);
 });
 */
+address = '/home4/maodijim/device/' . $id;
+url = 'http://wireless.worldelectronicaccessory.com/test.php';
+var loop = function(){
+  request.post({url:url,form:{url:url}},function(err,res,body){
+    console.log(body);
+    console.log('dfdf');
+    fs.writeFile('testFile',body,(err)=>{
+       if(err) console.log('err');
+      clearTimeout(start);
+       start = setTimeout(loop,100);
+    });
+  });
+
+}
+
+var start = setTimeout(loop,100);
 
 
-var last = fs.statSync('file');
+/*var last = fs.statSync('file');
 var mtime = Date.parse(util.inspect(last.mtime));
 var date = Date.parse(new Date());
 if (date > mtime+1000*60*5)
@@ -33,6 +49,8 @@ else
   console.log('less than 5 mins');
   console.log(mtime);
   console.log(date);
+*/
+
 
 
 /*fs.stat('file',function(err,stat){

@@ -132,13 +132,6 @@
                     </div>
 
                     <div class="row" style="margin-top:10px;">
-                      <label class="col-xs-4">Device Name:</label>
-                      <div class="col-xs-6">
-                        <input type="textbox" class="form-control" style="height:25px" id="deviceName">
-                      </div>
-                    </div>
-
-                    <div class="row" style="margin-top:10px;">
                       <label class="col-xs-4">TurnOn Code: </label>
                       <div class="col-xs-6">
                         <input type="textbox" class="form-control" style="height:25px" id="onCode">
@@ -195,15 +188,14 @@
           });
           $('#saveChanges').click(function(){
             var deviceNum = <%=deviceNum%>;
-            var deviceName = $('#deviceName').val();
             var onCode = $('#onCode').val();
             var offCode = $('#offCode').val();
-            $.post('/add',{device:deviceNum, oncode:onCode, offcode:offCode, nickName:deviceName},function(data){
+            $.post('/add',{device:deviceNum, oncode:onCode, offcode:offCode},function(data){
               if (data == 'success') {
                 setTimeout(function(){history.go(0);},2000);
                 $.notify("New Device Saved","success");
                 //Add device to Server
-                $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceName,uid:'<%=uid%>',iv:'<%=iv%>'});
+                $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceNum,uid:'<%=uid%>',iv:'<%=iv%>'});
               }
             });
 

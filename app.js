@@ -111,16 +111,14 @@ app.post('/name',function(req,res){
 //POST dat for Add New Device
 app.post('/add',function(req,res){
   var deviceNum = 'device'+req.body.device;
-  var nickName = req.body.nickName;
   var onCode = req.body.oncode;
   var offCode = req.body.offcode;
   file = fs.readFileSync('file','utf8');
   readData = JSON.parse(file);
-  if(nickName.length == 0) nickName = deviceNum;
-  var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+nickName+'"}');
+  var newdata = JSON.parse({"device":deviceNum,"status":"OFF","codeON":onCode,"codeOFF":offCode,"nickname":deviceNum});
   readData.devices.push(newdata);
   var add = JSON.stringify(readData);
-  fs.writeFile('file',add,(err) => {
+  fs.writeFile('file',add,'utf8',(err) => {
     if (err) throw err;
   });
 
