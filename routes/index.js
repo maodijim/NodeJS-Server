@@ -6,7 +6,7 @@ var functions = require('../functions');
 
 /* GET Index page. */
 router.get('/', function(req, res, next) {
-  var file = fs.readFileSync('./file','utf8');
+  var file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
   var data = JSON.parse(file);
   var id = data.id;
   var iv = crypto.randomBytes(16);

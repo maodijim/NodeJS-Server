@@ -7,16 +7,16 @@ var bodyParser = require('body-parser');
 const exec = require('child_process').exec;
 var crypto = require("crypto");
 var functions = require('./functions');
-var timeFrame = 3500;
+var timeFrame = 1000;
 var myfunction = function(){
-  clearInterval(sendRequest);
+  /*clearInterval(sendRequest);
   var lastModified = fs.statSync('file');
   var mtime = Date.parse(util.inspect(lastModified.mtime));
   var date = Date.parse(new Date());
   if (date > mtime+1000*60)
-    timeFrame= 3500;
+    timeFrame= 1000;
   else
-    timeFrame = 1000;
+    timeFrame = 1000;*/
 
   var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
   var file = fs.readFileSync('./file','utf8');
@@ -73,7 +73,7 @@ var myfunction = function(){
       }
     });
   }
-  sendRequest = setInterval(myfunction,timeFrame);
+  //sendRequest = setInterval(myfunction,timeFrame);
 };
 
 
