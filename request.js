@@ -14,9 +14,9 @@ var myfunction = function(){
   var mtime = Date.parse(util.inspect(lastModified.mtime));
   var date = Date.parse(new Date());
   if (date > mtime+1000*60)
-    timeFrame= 1000;
+  timeFrame= 1000;
   else
-    timeFrame = 1000;*/
+  timeFrame = 1000;*/
 
   var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
   var file = fs.readFileSync('./file','utf8');
@@ -31,14 +31,13 @@ var myfunction = function(){
 
   if(data.devices.length > 0){
     for(var i=0; i < data.devices.length;i++){
-      newData.push({device:data.devices[i].device,status:data.devices[i].status,deviceNick:data.devices[i].nickname});
+      newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
     };
 
     request.post({url:url,form:{data:newData,uid:uid,iv:iv1}},function(err,res,body){
 
       if (!err && res.statusCode === 200) {
-        if(body == "Match"){
-          //console.log("Do Nothing");
+        if(body == 'match'){
         }else{
           var json = JSON.parse(body);
           if(data.devices.length == json.length){
@@ -59,8 +58,8 @@ var myfunction = function(){
                 });
               }
               //Change Nick Name
-              if(data.devices[i].nickname != json[i].deviceNick){
-                data.devices[i].nickname = json[i].deviceNick;
+              if(data.devices[i].nickname != json[i].nickname){
+                data.devices[i].nickname = json[i].nickname;
                 var writeData = JSON.stringify(data);
                 fs.writeFile('file',writeData,(err) => {
                   if (err) console.log(err);;
@@ -68,13 +67,22 @@ var myfunction = function(){
               }
 
             }
+          }else{
+            //Server Changed
+            data.devices = json;
+            var writeData = JSON.stringify(data);
+            fs.writeFile('file',writeData,(err) => {
+              if (err) console.log(err);;
+            });
           }
+
         }
       }
     });
+
+    //sendRequest = setInterval(myfunction,timeFrame);
   }
-  //sendRequest = setInterval(myfunction,timeFrame);
-};
+}
 
 
 

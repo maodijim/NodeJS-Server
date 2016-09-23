@@ -23,7 +23,7 @@ request.post({url:'http://wireless.worldelectronicaccessory.com/test',form:{vali
 });
 */
 
-
+/* Test file last modified time
 var last = fs.statSync('file');
 var mtime = Date.parse(util.inspect(last.mtime));
 var date = Date.parse(new Date());
@@ -33,7 +33,21 @@ else
   console.log('less than 5 mins');
   console.log(mtime);
   console.log(date);
+*/
+var file = fs.readFileSync('file','utf8');
+var data = JSON.parse(file);
+var url = 'http://wireless.worldelectronicaccessory.com/test.php';
+var url1 = 'http://www.google.com/';
+var newData = [];
+for(var i=0; i < data.devices.length;i++){
+  newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
+};
+console.log(data);
+request.post({url:url,form:{data:newData}},function(err,res,body){
+  //var json = JSON.parse(body);
+  //console.log(body);
 
+});
 
 /*fs.stat('file',function(err,stat){
   if(err == null){

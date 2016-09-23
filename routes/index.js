@@ -3,7 +3,11 @@ var router = express.Router();
 var fs = require('fs');
 var crypto = require("crypto");
 var functions = require('../functions');
-
+var file = fs.readFileSync('file','utf8');
+var data = JSON.parse(file);
+var count = data.devices.length;
+console.log(count);
+console.log(data);
 /* GET Index page. */
 router.get('/', function(req, res, next) {
   var file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');

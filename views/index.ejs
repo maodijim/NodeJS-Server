@@ -203,7 +203,7 @@
                 setTimeout(function(){history.go(0);},2000);
                 $.notify("New Device Saved","success");
                 //Add device to Server
-                $.post(url,{action:'add',deviceNum:deviceNum,deviceNick:deviceName,uid:'<%=uid%>',iv:'<%=iv%>'});
+                $.post(url,{action:'add',deviceNum:deviceNum,oncode:onCode, offcode:offCode,nickname:deviceName,uid:'<%=uid%>',iv:'<%=iv%>'});
               }
             });
 
