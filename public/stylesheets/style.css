@@ -139,5 +139,5 @@ input:checked + .slider:before{
 
 .round,.round:focus{
   outline-style: none;
-  border-radius: 50%;
+  border-radius: 15px;
 }

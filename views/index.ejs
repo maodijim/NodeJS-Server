@@ -32,7 +32,7 @@
     <table class="table">
       <tr>
         <th>Device
-          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-option-horizontal" style="margin-right:5px;" id="show-code" title="Display Code"></button>
+          <button type="button" class="btn btn-info pull-right glyphicon glyphicon-eye-open" style="margin-right:5px;" id="show-code" title="Display Code"></button>
           <button type="button" class="btn btn-info pull-right glyphicon glyphicon-minus-sign" style="margin-left:5px; margin-right:5px;" id="minus"></button>
           <button type="button" class="btn btn-info pull-right glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#mymodal"></button>
         </th>
@@ -132,23 +132,24 @@
                     </div>
 
                     <div class="row" style="margin-top:10px;">
-                      <label class="col-xs-4">Device Name:</label>
-                      <div class="col-xs-6">
+                      <label class="col-xs-3">Device Name:</label>
+                      <div class="col-xs-5">
                         <input type="textbox" class="form-control" style="height:25px" id="deviceName">
                       </div>
+                      <button type="button" class="btn btn-info btn-xs col-xs-3" id="randomCode">Code Generator</button>
                     </div>
 
                     <div class="row" style="margin-top:10px;">
-                      <label class="col-xs-4">TurnOn Code: </label>
-                      <div class="col-xs-6">
+                      <label class="col-xs-3">TurnOn Code: </label>
+                      <div class="col-xs-5">
                         <input type="textbox" class="form-control" style="height:25px" id="onCode">
                       </div>
                       <button type="button" class="btn btn-warning btn-xs glyphicon glyphicon-search" id="codeOn"></button>
                     </div>
 
                     <div class="row" style="margin-top:10px;">
-                      <strong class="col-xs-4">TurnOFF Code:</strong>
-                      <div class="col-xs-6">
+                      <strong class="col-xs-3">TurnOFF Code:</strong>
+                      <div class="col-xs-5">
                         <input type="textbox" class="form-control" style="height:25px" id="offCode">
                       </div>
                       <button type="button" class="btn btn-warning btn-xs glyphicon glyphicon-search" id="codeOff"></button>
@@ -167,9 +168,33 @@
 
           </div>
           <script>
+          //Generate Random Code
+                function randomGen() {
+                    var temp ='';
+                    for (var i = 0; i < 17; i++) {
+                        var rand = Math.random();
+                        if (rand > 0.5) {
+                            temp += '1';
+                        } else {
+                            temp += '0';
+                        }
+                    }
+                    var on = temp+'0011';
+                    var off = temp+'1100';
+                    return [on,off];
+                }
+                $('#randomCode').click(function () {
+                    var generateRan = randomGen();
+                    var on = parseInt(generateRan[0],2).toString();
+                    var off = parseInt(generateRan[1],2).toString();
+                    $('#offCode').typed({strings: [off], typeSpeed: 20});
+                    $('#onCode').typed({strings: [on], typeSpeed: 20});
+                });
+
           //Show Device code
           $('#show-code').click(function(){
             $('pre').toggle('fast','swing');
+            $('#show-code').toggleClass('glyphicon-eye-open glyphicon-eye-close');
           });
 
           $('#codeOn').click(function(){
