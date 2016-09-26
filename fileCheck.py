@@ -5,8 +5,8 @@ fileExist = (os.path.exists('/home/pi/Public/NodeJS-Server/file'));
 
 if fileExist:
     print('file found')
-    print getId()
-    if os.path.getsize('/home/pi/Public/NodeJS-Server/fileCheck.py')<1:
+    '''print getId()'''
+    if os.path.getsize('/home/pi/Public/NodeJS-Server/file')<1:
         name = json.dumps({ "devices": [], "id":getId()})
         file = open('/home/pi/Public/NodeJS-Server/file','w')
         file.write(name)
