@@ -6,7 +6,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 const exec = require('child_process').exec;
 var crypto = require("crypto");
-var functions = require('./functions');
+var functions = require('/home/pi/Public/NodeJS-Server/functions');
 var timeFrame = 1000;
 var myfunction = function(){
   /*clearInterval(sendRequest);
