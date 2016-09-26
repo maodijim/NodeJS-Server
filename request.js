@@ -28,7 +28,7 @@ var myfunction = function(){
   var uid = functions.encryt(id,iv);
 
   if(data.devices.length == 0){
-    request.post({url:url,form:{data:'0',uid:uid,iv:iv1}},function(err,res,body){
+    request.post({url:url,form:{data:'empty',uid:uid,iv:iv1}},function(err,res,body){
       //Server Changed
       var json = JSON.parse(body);
       data.devices = json;
@@ -95,8 +95,5 @@ var myfunction = function(){
     //sendRequest = setInterval(myfunction,timeFrame);
   }
 }
-
-
-
 
 var sendRequest = setInterval(myfunction,timeFrame);
