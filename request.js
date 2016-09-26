@@ -38,6 +38,7 @@ var myfunction = function(){
 
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
+        }else if(body == 'empty'){
         }else{
           var json = JSON.parse(body);
           if(data.devices.length == json.length){
