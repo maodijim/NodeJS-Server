@@ -19,7 +19,7 @@ var myfunction = function(){
   timeFrame = 1000;*/
 
   var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
-  var file = fs.readFileSync('file','utf8');
+  var file = fs.readFileSync('./file','utf8');
   var data = JSON.parse(file);
   var newData =[];
   var id = data.id;
@@ -29,7 +29,7 @@ var myfunction = function(){
 
 
 
-  if(data.devices.length > 0){
+  if(data.devices.length >= 0){
     for(var i=0; i < data.devices.length;i++){
       newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
     };
@@ -49,7 +49,7 @@ var myfunction = function(){
                 if (data.devices[i].status == "ON"){
                   var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
                 }else{
-                  command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
+                  command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 180';
                 }
                 exec(command,function(error,stdout,stderr){
                   fs.writeFile('file',writeData,(err) => {
