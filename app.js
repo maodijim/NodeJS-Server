@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var wifiPage = require('./routes/wifi');
 var routes = require('./routes/index');
 var async = require('async');
-var functions = require('./functions');
+var functions = require('/home/pi/Public/NodeJS-Server/functions');
 //var users = require('./routes/users');
 //var about = require('./routes/about');
 //var test = require('./routes/test');
@@ -35,7 +35,7 @@ var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
 app.post('/',function(req,response){
   deviceStatus = req.body.status;
   deviceNum = req.body.device;
-  file = fs.readFileSync('file','utf8');
+  file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
   readData = JSON.parse(file);
   //  var file = 'file'+req.body.device;
   if(readData.length != 0 ){
@@ -46,7 +46,7 @@ app.post('/',function(req,response){
       code = readData.devices[deviceNum].codeON;
       command = 'sudo /home/pi/Public/NodeJS-Server/codesend '+code+' 1 120';
       exec(command,function(error,stdout,stderr){
-          fs.writeFile('file',writeData,(err) => {
+          fs.writeFile('/home/pi/Public/NodeJS-Server/file',writeData,(err) => {
             if (err) throw err;
           });
       });
@@ -57,13 +57,13 @@ app.post('/',function(req,response){
       code = readData.devices[deviceNum].codeOFF;
       command = 'sudo /home/pi/Public/NodeJS-Server/codesend '+ code +' 1 120';
       exec(command,function(error,stdout,stderr){
-          fs.writeFile('file',writeData,(err) => {
+          fs.writeFile('/home/pi/Public/NodeJS-Server/file',writeData,(err) => {
             if (err) throw err;
           });
       });
     }
   }
-  response.send('file');
+  response.send('/home/pi/Public/NodeJS-Server/file');
 });
 
 //POST data from wifi page
@@ -97,13 +97,13 @@ app.post('/name',function(req,res){
   var deviceNum = req.body.device;
   var newName = req.body.newName;
   console.log(deviceNum);
-    file = fs.readFileSync('file','utf8');
+    file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
     readData = JSON.parse(file);
     if(readData.length != 0 ){
       readData.devices[deviceNum].nickname = newName;
       request.post(url).form({deviceNum:deviceNum,newName:newName});
       writeData = JSON.stringify(readData);
-      fs.writeFile('file',writeData,(err)=>{if(err)throw err;});
+      fs.writeFile('/home/pi/Public/NodeJS-Server/file',writeData,(err)=>{if(err)throw err;});
       res.send('success');
     }
   });
@@ -114,13 +114,13 @@ app.post('/add',function(req,res){
   var nickName = req.body.nickName;
   var onCode = req.body.oncode;
   var offCode = req.body.offcode;
-  file = fs.readFileSync('file','utf8');
+  file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
   readData = JSON.parse(file);
   if(nickName.length == 0) nickName = deviceNum;
   var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+nickName+'"}');
   readData.devices.push(newdata);
   var add = JSON.stringify(readData);
-  fs.writeFile('file',add,(err) => {
+  fs.writeFile('/home/pi/Public/NodeJS-Server/file',add,(err) => {
     if (err) throw err;
   });
 
@@ -129,7 +129,7 @@ app.post('/add',function(req,res){
 
 //Return search result
 app.post('/searchcode',function(req,res){
-  command = 'sudo ./RFSniffer1';
+  command = 'sudo /home/pi/Public/NodeJS-Server/RFSniffer1';
   var child = spawn('sudo', ['./RFSniffer1']);
 
   child.stdout.on('data',(data)=>{
@@ -145,12 +145,12 @@ app.post('/searchcode',function(req,res){
 //Delete Element
 app.post('/delete',function(req,res){
   deviceNum = req.body.device;
-  file = fs.readFileSync('file','utf8');
+  file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
   readData = JSON.parse(file);
   if(readData.length !=0 ){
     readData.devices.splice(deviceNum,1);
     var add = JSON.stringify(readData);
-    fs.writeFile('file',add,(err)=>{
+    fs.writeFile('/home/pi/Public/NodeJS-Server/file',add,(err)=>{
       if(err) console.log(err);
       res.send('success');
     })
