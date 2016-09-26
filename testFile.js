@@ -42,7 +42,7 @@ var newData = [];
 for(var i=0; i < data.devices.length;i++){
   newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
 };
-//console.log(data);
+console.log(data.devices.length);
 request.post({url:url,form:{data:newData}},function(err,res,body){
   var json = JSON.parse(body);
   var devices = JSON.parse(json.devices)

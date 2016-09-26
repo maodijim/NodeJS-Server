@@ -27,9 +27,19 @@ var myfunction = function(){
   var iv1 = iv.toString('hex');
   var uid = functions.encryt(id,iv);
 
+  if(data.devices.length == 0){
+    request.post({url:url,form:{data:'0',uid:uid,iv:iv1}},function(err,res,body){
+      //Server Changed
+      var json = JSON.parse(body);
+      data.devices = json;
+      var writeData = JSON.stringify(data);
+        fs.writeFile('file',writeData,(err) => {
+          if (err) console.log(err);;
+        });
+    });
+  }
 
-
-  if(data.devices.length >= 0){
+  if(data.devices.length > 0){
     for(var i=0; i < data.devices.length;i++){
       newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
     };
@@ -38,7 +48,6 @@ var myfunction = function(){
 
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
-        }else if(body == 'empty'){
         }else{
           var json = JSON.parse(body);
           if(data.devices.length == json.length){
