@@ -4,10 +4,10 @@ var fs = require('fs');
 var util = require('util');
 var request = require('request');
 var bodyParser = require('body-parser');
-const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 var crypto = require("crypto");
 var functions = require('./functions');
-var timeFrame = 1000;
+var timeFrame = 2000;
 var myfunction = function(){
   /*clearInterval(sendRequest);
   var lastModified = fs.statSync('file');
@@ -30,12 +30,14 @@ var myfunction = function(){
   if(data.devices.length == 0){
     request.post({url:url,form:{data:'empty',uid:uid,iv:iv1}},function(err,res,body){
       //Server Changed
-      var json = JSON.parse(body);
-      data.devices = json;
-      var writeData = JSON.stringify(data);
+      if (!err && res.statusCode === 200 && body != 'empty') {
+        var json = JSON.parse(body);
+        data.devices = json;
+        var writeData = JSON.stringify(data);
         fs.writeFile('file',writeData,(err) => {
-          if (err) console.log(err);;
+          if (err) console.log(err);
         });
+      }
     });
   }
 
@@ -58,14 +60,22 @@ var myfunction = function(){
                 var writeData = JSON.stringify(data);
                 if (data.devices[i].status == "ON"){
                   var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
+                    execSync(command)
+                    fs.writeFile('file',writeData,(err) => {
+                      if (err) console.log(err);
+                    });
+
+
+
+
                 }else{
-                  command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 180';
+                  command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
+                    execSync(command)
+                    fs.writeFile('file',writeData,(err) => {
+                      if (err) console.log(err);
+                    });
                 }
-                exec(command,function(error,stdout,stderr){
-                  fs.writeFile('file',writeData,(err) => {
-                    if (err) console.log(err);
-                  });
-                });
+
               }
               //Change Nick Name
               if(data.devices[i].nickname != json[i].nickname){
@@ -81,9 +91,9 @@ var myfunction = function(){
             //Server Changed
             data.devices = json;
             var writeData = JSON.stringify(data);
-              fs.writeFile('file',writeData,(err) => {
-                if (err) console.log(err);;
-              });
+            fs.writeFile('file',writeData,(err) => {
+              if (err) console.log(err);;
+            });
 
 
           }
@@ -95,5 +105,8 @@ var myfunction = function(){
     //sendRequest = setInterval(myfunction,timeFrame);
   }
 }
+
+
+
 
 var sendRequest = setInterval(myfunction,timeFrame);

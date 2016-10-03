@@ -39,7 +39,7 @@ var data = JSON.parse(file);
 var url = 'http://wireless.worldelectronicaccessory.com/test.php';
 var url1 = 'http://www.google.com/';
 var newData = [];
-console.log(data.devices.length);
+console.log(new Date().getSeconds());
 /*
 for(var i=0; i < data.devices.length;i++){
   newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
