@@ -96,7 +96,7 @@
               btn.prop('disabled',true);
               window.setTimeout(function(){
                 btn.prop('disabled',false);
-              },1000);
+              },100);
               $.notify("Signal Sent Please wait",{className:'success', showDuration:250, hideDuration:600, autoHideDelay: 3000, });
               if(this.checked){
                 $.post('/',{status:'ON',device:<%=i%>});

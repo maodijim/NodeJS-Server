@@ -34,9 +34,7 @@ var myfunction = function(){
         var json = JSON.parse(body);
         data.devices = json;
         var writeData = JSON.stringify(data);
-        fs.writeFile('file',writeData,(err) => {
-          if (err) console.log(err);
-        });
+        fs.writeFileSync('file',writeData);
       }
     });
   }
@@ -61,22 +59,15 @@ var myfunction = function(){
                 if (data.devices[i].status == "ON"){
                   var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
                     execSync(command)
-                    fs.writeFile('file',writeData,(err) => {
-                      if (err) console.log(err);
-                    });
-
-
-
-
+                    fs.writeFileSync('file',writeData);
                 }else{
-                  command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
+                  var command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
                     execSync(command)
-                    fs.writeFile('file',writeData,(err) => {
-                      if (err) console.log(err);
-                    });
+                    fs.writeFileSync('file',writeData);
                 }
 
               }
+
               //Change Nick Name
               if(data.devices[i].nickname != json[i].nickname){
                 data.devices[i].nickname = json[i].nickname;
