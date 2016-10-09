@@ -1,14 +1,37 @@
 var express = require('express');
 var router = express.Router();
+  var mysql = require('mysql');
 var fs = require('fs');
 var util = require('util');
 var request = require('request');
 var bodyParser = require('body-parser');
 var functions = require('./functions');
-const exec = require('child_process').exec;
-const spawn = require('child_process').spawn;
+//const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
+//const spawn = require('child_process').spawn;
+//const spawnSync = require('child_process').spawnSync;
 var crypto = require("crypto");
+var async = require("async");
 var functions = require('./functions');
+
+var connection = mysql.createConnection(functions.connect);
+
+
+
+
+  connection.query("truncate table devices",function(err,rows,fields){
+  if(err) throw err;
+  console.log(rows);
+  });
+
+
+  /*var id = execSync('python functions.py').toString();
+
+id = JSON.parse(id);
+console.log(id.devices[0].status);*/
+//connection.end();
+
+
 /*var name = 'this is my secret',
 key = crypto.createHash('md5').update(name).digest('hex'),
 iv  = 'df451ewrtf125rtt',
@@ -34,12 +57,13 @@ else
   console.log(mtime);
   console.log(date);
 */
+/*
 var file = fs.readFileSync('file','utf8');
 var data = JSON.parse(file);
 var url = 'http://wireless.worldelectronicaccessory.com/test.php';
 var url1 = 'http://www.google.com/';
 var newData = [];
-console.log(new Date().getSeconds());
+console.log(new Date().getSeconds());*/
 /*
 for(var i=0; i < data.devices.length;i++){
   newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});

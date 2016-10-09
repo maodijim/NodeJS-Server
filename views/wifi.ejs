@@ -42,6 +42,7 @@
             <div class="col-xs-12">
               <div class="">
                 <button type="button" class="btn btn-primary" id="submit">Save</button>
+                <button type="button" class="btn btn-primary" id="reconnect">Reconnect</button>
               </div>
             </div>
 
@@ -59,11 +60,9 @@
         })
 
         $('#submit').click(function(){
-          var required = $('#password').val().length;
+          //var required = $('#password').val().length;
           if($('#network').val() == "Please Select Your WIFI"){
             $("#network").notify("Please Select a Wifi",{position:"t"});
-          }else if(required === 0){
-            $("#password").notify("Please Enter Password",{position:"t"});
           }else{
             var network = $('#network').val();
             var password = $('#password').val();
@@ -74,9 +73,12 @@
               if(data == "Save Wifi Info Sucess")
               $.notify(data,"success");
             });
-
-
           }
+        });
+
+        $('#reconnect').click(function(){
+          $.post('/reconnect',{},function(data){            
+          });
         });
 
       });
