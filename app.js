@@ -51,7 +51,7 @@ app.post('/',function(req,response){
   if(readData.length != 0 ){
     if(deviceStatus == 'ON'){
       readData.devices[deviceNum].status = 'ON';
-    //  var writeData = JSON.stringify(readData);
+      var writeData = JSON.stringify(readData);
       connection.query("UPDATE `devices` SET `status`=? where codeON=?",['ON',readData.devices[i].codeON],function(err,rows,fields){
         if(err) throw err;
       });
@@ -65,7 +65,7 @@ app.post('/',function(req,response){
       });
     }else if(deviceStatus == 'OFF'){
       readData.devices[deviceNum].status = 'OFF';
-    //  var writeData = JSON.stringify(readData);
+      var writeData = JSON.stringify(readData);
       connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',readData.devices[i].codeON],function(err,rows,fields){
         if(err) throw err;
       });

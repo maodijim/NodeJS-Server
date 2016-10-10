@@ -14,15 +14,9 @@ var crypto = require("crypto");
 var async = require("async");
 var functions = require('./functions');
 
-var connection = mysql.createConnection(functions.connect);
-
-
-
-
-  connection.query("truncate table devices",function(err,rows,fields){
-  if(err) throw err;
-  console.log(rows);
-  });
+var file = fs.readFileSync('file','utf8');
+var data = JSON.parse(file);
+console.log(data);
 
 
   /*var id = execSync('python functions.py').toString();

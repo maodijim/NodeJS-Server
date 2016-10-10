@@ -38,6 +38,9 @@ var myfunction = function(){
   var uid = functions.encryt(id,iv);
 
   if(data.devices.length == 0){
+    connection.query("truncate table devices",function(err,rows,fields){
+      if(err) throw err;
+    });
     request.post({url:url,form:{data:'empty',uid:uid,iv:iv1}},function(err,res,body){
       //Server Changed
       if (!err && res.statusCode === 200 && body != 'empty') {
@@ -45,9 +48,10 @@ var myfunction = function(){
         dbdata = JSON.parse(file);
         var json = JSON.parse(body);
         dbdata.devices = json;
-        console.log(dbdata);
         for(var i=0;i<dbdata.devices.length;i++){
-          data.devices[i] = '{"status":"'+dbdata.devices[i].status+'","nickname":"'+dbdata.devices[i].nickname+'"}';
+          var text = '{"status":"'+dbdata.devices[i].status+'","nickname":"'+dbdata.devices[i].nickname+'"}';
+          var json_test = JSON.parse(text);
+          data.devices[i] = json_test;
           connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[dbdata.devices[i].device,dbdata.devices[i].status,dbdata.devices[i].codeON,dbdata.devices[i].codeOFF,dbdata.devices[i].nickname],function(err,rows,fields){
             if(err) throw err;
           });
@@ -70,7 +74,9 @@ var myfunction = function(){
           dbfile = execSync('python functions.py').toString();
           dbdata = JSON.parse(dbfile);
           var json = JSON.parse(body);
-          if(dbdata.devices.length == json.length){
+          console.log(newData);
+          console.log(body);
+          if(data.devices.length == json.length){
             for(var i=0;i<dbdata.devices.length;i++){
               //Change Status and Exec
               if(dbdata.devices[i].status != json[i].status){
@@ -95,7 +101,7 @@ var myfunction = function(){
               }
 
               //Change Nick Name
-              if(dbdata.devices[i].nickname != json[i].nickname){
+              if(data.devices[i].nickname != json[i].nickname){
                 dbdata.devices[i].nickname = json[i].nickname;
                 data.devices[i].nickname = json[i].nickname;
                 var writeData = JSON.stringify(data);
@@ -118,7 +124,9 @@ var myfunction = function(){
                 var writeData = JSON.stringify(dbdata);
               }else{
                 for(var i=0;i<dbdata.devices.length;i++){
-                  data.devices[i] = '{"status":"'+dbdata.devices[i].status+'","nickname":"'+dbdata.devices[i].nickname+'"}';
+                  var text = '{"status":"'+dbdata.devices[i].status+'","nickname":"'+dbdata.devices[i].nickname+'"}';
+                  var json_test = JSON.parse(text);
+                  data.devices[i] = json_test;
                   var writeData = JSON.stringify(data);
                   connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[dbdata.devices[i].device,dbdata.devices[i].status,dbdata.devices[i].codeON,dbdata.devices[i].codeOFF,dbdata.devices[i].nickname],function(err,rows,fields){
                     if(err) throw err;
