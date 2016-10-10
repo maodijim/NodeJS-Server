@@ -29,6 +29,7 @@ var myfunction = function(){
 
   var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
   var file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
+  //var file = execSync('python functions.py').toString();
   var data = JSON.parse(file);
   var newData =[];
   var id = data.id;
@@ -44,9 +45,9 @@ var myfunction = function(){
         dbdata = JSON.parse(file);
         var json = JSON.parse(body);
         dbdata.devices = json;
-
-        for(var i=0;i<data.devices.length;i++){
-          data.devices[i] = "{\"status\":"+dbdata.devices[i].status+",\"nickname\":"+dbdata.devices[i].nickname+"}";
+        console.log(dbdata);
+        for(var i=0;i<dbdata.devices.length;i++){
+          data.devices[i] = '{"status":"'+dbdata.devices[i].status+'","nickname":"'+dbdata.devices[i].nickname+'"}';
           connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[dbdata.devices[i].device,dbdata.devices[i].status,dbdata.devices[i].codeON,dbdata.devices[i].codeOFF,dbdata.devices[i].nickname],function(err,rows,fields){
             if(err) throw err;
           });
@@ -66,7 +67,6 @@ var myfunction = function(){
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
         }else{
-          console.log(body);
           dbfile = execSync('python functions.py').toString();
           dbdata = JSON.parse(dbfile);
           var json = JSON.parse(body);
@@ -82,14 +82,14 @@ var myfunction = function(){
                     if(err) throw err;
                   });
                   var command = 'sudo ./codesend '+ dbdata.devices[i].codeON +' 1 120';
-                  execSync(command);
+                  execSync(command)
                   fs.writeFileSync('file',writeData);
                 }else{
                   connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',dbdata.devices[i].codeON],function(err,rows,fields){
                     if(err) throw err;
                   });
                   var command = 'sudo ./codesend '+ dbdata.devices[i].codeOFF +' 1 120';
-                  execSync(command);
+                  execSync(command)
                   fs.writeFileSync('file',writeData);
                 }
               }
@@ -114,22 +114,23 @@ var myfunction = function(){
               connection.query("truncate table devices",function(err,rows,fields){
                 if(err) throw err;
               });
-              for(var i=0;i<data.devices.length;i++){
-                data.devices[i] = "{\"status\":"+dbdata.devices[i].status+",\"nickname\":"+dbdata.devices[i].nickname+"}";
-                connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[dbdata.devices[i].device,dbdata.devices[i].status,dbdata.devices[i].codeON,dbdata.devices[i].codeOFF,dbdata.devices[i].nickname],function(err,rows,fields){
-                  if(err) throw err;
-                });
+              if(dbdata.devices.length == 0){
+                var writeData = JSON.stringify(dbdata);
+              }else{
+                for(var i=0;i<dbdata.devices.length;i++){
+                  data.devices[i] = '{"status":"'+dbdata.devices[i].status+'","nickname":"'+dbdata.devices[i].nickname+'"}';
+                  var writeData = JSON.stringify(data);
+                  connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[dbdata.devices[i].device,dbdata.devices[i].status,dbdata.devices[i].codeON,dbdata.devices[i].codeOFF,dbdata.devices[i].nickname],function(err,rows,fields){
+                    if(err) throw err;
+                  });
+                }
               }
 
-              var writeData = JSON.stringify(data);
-              fs.writeFile('file',writeData,(err) => {
-                if (err) console.log(err);;
-              });
+              fs.writeFileSync('file',writeData);
             }
           }
         }
     });
-
 }
 //connection.end();
 }
