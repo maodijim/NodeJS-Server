@@ -98,7 +98,7 @@ var myfunction = function(){
                 dbdata.devices[i].nickname = json[i].nickname;
                 data.devices[i].nickname = json[i].nickname;
                 var writeData = JSON.stringify(data);
-                connection.query("UPDATE `devices` SET `nickname`=? where codeON=?",[data.devices[i].nickname,data.devices[i].codeON],function(err,rows,fields){
+                connection.query("UPDATE `devices` SET `nickname`=? where codeON=?",[dbdata.devices[i].nickname,dbdata.devices[i].codeON],function(err,rows,fields){
                   if(err) throw err;
                 });
                 fs.writeFile('file',writeData,(err) => {
