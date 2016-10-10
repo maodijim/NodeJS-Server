@@ -82,14 +82,14 @@ var myfunction = function(){
                     if(err) throw err;
                   });
                   var command = 'sudo ./codesend '+ dbdata.devices[i].codeON +' 1 120';
-                  execSync(command)
+                  execSync(command);
                   fs.writeFileSync('file',writeData);
                 }else{
                   connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',dbdata.devices[i].codeON],function(err,rows,fields){
                     if(err) throw err;
                   });
                   var command = 'sudo ./codesend '+ dbdata.devices[i].codeOFF +' 1 120';
-                  execSync(command)
+                  execSync(command);
                   fs.writeFileSync('file',writeData);
                 }
               }
