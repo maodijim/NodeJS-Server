@@ -21,7 +21,7 @@ def test():
 if(sys.argv[1] == 'check'):
     if (apMode[0] is '1'):
         print('AP Running')
-        if ((time.minute % 3) == 0):
+        if ((time.minute % 4) == 0):
             subprocess.call(['sudo','service','hostapd','stop'])
             subprocess.call(['sudo','ifdown','wlan0'])
             subprocess.call(['sudo','cp','/etc/network/interfaces1','/etc/network/interfaces'])

@@ -51,7 +51,7 @@ app.post('/',function(req,response){
   if(readData.length != 0 ){
     if(deviceStatus == 'ON'){
       readData.devices[deviceNum].status = 'ON';
-      var writeData = JSON.stringify(readData);
+    //  var writeData = JSON.stringify(readData);
       connection.query("UPDATE `devices` SET `status`=? where codeON=?",['ON',readData.devices[i].codeON],function(err,rows,fields){
         if(err) throw err;
       });
@@ -59,13 +59,13 @@ app.post('/',function(req,response){
       code = readData.devices[deviceNum].codeON;
       command = 'sudo /home/pi/Public/NodeJS-Server/codesend '+code+' 1 120';
       exec(command,function(error,stdout,stderr){
-          fs.writeFile('file',writeData,(err) => {
-            if (err) throw err;
-          });
+        //  fs.writeFile('file',writeData,(err) => {
+        //    if (err) throw err;
+        //  });
       });
     }else if(deviceStatus == 'OFF'){
       readData.devices[deviceNum].status = 'OFF';
-      var writeData = JSON.stringify(readData);
+    //  var writeData = JSON.stringify(readData);
       connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',readData.devices[i].codeON],function(err,rows,fields){
         if(err) throw err;
       });
@@ -73,9 +73,9 @@ app.post('/',function(req,response){
       code = readData.devices[deviceNum].codeOFF;
       command = 'sudo /home/pi/Public/NodeJS-Server/codesend '+ code +' 1 120';
       exec(command,function(error,stdout,stderr){
-          fs.writeFile('file',writeData,(err) => {
-            if (err) throw err;
-          });
+        //  fs.writeFile('file',writeData,(err) => {
+        //    if (err) throw err;
+        //  });
       });
     }
   }
@@ -123,8 +123,8 @@ app.post('/name',function(req,res){
       connection.query("UPDATE `devices` SET `nickname`=? where codeON=?",[newName,readData.devices[deviceNum].codeON],function(err,rows,fields){
         if(err) throw err;
       });
-      writeData = JSON.stringify(readData);
-      fs.writeFile('file',writeData,(err)=>{if(err)throw err;});
+    //  writeData = JSON.stringify(readData);
+    //  fs.writeFile('file',writeData,(err)=>{if(err)throw err;});
       res.send('success');
     }
   });
@@ -139,15 +139,14 @@ app.post('/add',function(req,res){
   readData = JSON.parse(file);
   if(nickName.length == 0) nickName = deviceNum;
   var newdata = JSON.parse('{"device":"'+deviceNum+'","status":"OFF","codeON":"'+onCode+'","codeOFF":"'+offCode+'","nickname":"'+nickName+'"}');
-  var filedata = JSON.parse('{"device":"'+deviceNum+'""status":"OFF","nickname":"'+nickName+'"}');
   readData.devices.push(newdata);
   connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[deviceNum,'OFF',onCode,offCode,nickName],function(err,rows,fields){
     if(err) throw err;
   });
-  var add = JSON.stringify(filedata);
-  fs.writeFile('file',add,(err) => {
-    if (err) throw err;
-  });
+//  var add = JSON.stringify(readData);
+//  fs.writeFile('file',add,(err) => {
+//    if (err) throw err;
+//  });
 
   res.send('success');
 });
@@ -172,10 +171,8 @@ app.post('/delete',function(req,res){
   deviceNum = req.body.device;
   file = execSync('python functions.py').toString();
   readData = JSON.parse(file);
-  var read = JSON.parse(fs.readFileSync('file'));
   if(readData.length !=0 ){
     readData.devices.splice(deviceNum,1);
-    read.devices.splice(deviceNum,1);
     connection.query("truncate table devices",function(err,rows,fields){
       if(err) throw err;
     });
@@ -184,11 +181,11 @@ app.post('/delete',function(req,res){
         if(err) throw err;
       });
     }
-    var add = JSON.stringify(read);
-    fs.writeFile('file',add,(err)=>{
-      if(err) console.log(err);
+  //  var add = JSON.stringify(readData);
+  //  fs.writeFile('file',add,(err)=>{
+  //    if(err) console.log(err);
       res.send('success');
-    })
+    //})
   }
 });
 /* ---------------------------
