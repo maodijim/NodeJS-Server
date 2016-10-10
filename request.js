@@ -66,6 +66,7 @@ var myfunction = function(){
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
         }else{
+          console.log(body);
           dbfile = execSync('python functions.py').toString();
           dbdata = JSON.parse(dbfile);
           var json = JSON.parse(body);
