@@ -14,11 +14,12 @@ var crypto = require("crypto");
 var async = require("async");
 var functions = require('./functions');
 
-var file = fs.readFileSync('file','utf8');
-var data = JSON.parse(file);
-console.log(data);
+var connection = mysql.createConnection(functions.connect);
 
-
+connection.query('select * from devices',function(err,rows){
+  var data = JSON.parse(rows);
+  console.log(data);
+});
   /*var id = execSync('python functions.py').toString();
 
 id = JSON.parse(id);
