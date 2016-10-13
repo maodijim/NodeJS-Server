@@ -66,11 +66,11 @@ var myfunction = function(){
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
         }else if (body == 'update') {
+          execSync('git checkout .');
           execSync('git pull');
-          execSync('sudo pm2 restart bin/www');
-          execSync('sudo pm2 restart request.js');
-          execSync('sudo chmod +x codesend RFSniffer1');
-          
+          execSync('pm2 restart bin/www');
+          execSync('pm2 restart request.js');
+          execSync('chmod +x codesend RFSniffer1');
         }else{
           var json = JSON.parse(body);
           if(data.devices.length == json.length){
