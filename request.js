@@ -27,7 +27,7 @@ var myfunction = function(){
 
 
 
-  var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
+  var url = 'https://worldelectronicaccessory.com/WebSale/jsonTest.php';
   //var file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
   var file = execSync('python functions.py').toString();
   var data = JSON.parse(file);
@@ -45,10 +45,8 @@ var myfunction = function(){
       //Server Changed
       if (!err && res.statusCode === 200 && body != 'empty') {
         var json = JSON.parse(body);
+        data.devices = json;
         for(var i=0;i<data.devices.length;i++){
-          var text = '{"status":"'+data.devices[i].status+'","nickname":"'+data.devices[i].nickname+'"}';
-          var json_test = JSON.parse(text);
-          data.devices[i] = json_test;
           connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[data.devices[i].device,data.devices[i].status,data.devices[i].codeON,data.devices[i].codeOFF,data.devices[i].nickname],function(err,rows,fields){
             if(err) throw err;
           });
@@ -67,10 +65,11 @@ var myfunction = function(){
     request.post({url:url,form:{data:newData,uid:uid,iv:iv1}},function(err,res,body){
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
+        }else if (body == 'update') {
+          execSync('git reset --hard');
+          execSync('git pull');
         }else{
           var json = JSON.parse(body);
-          console.log(newData);
-          console.log(body);
           if(data.devices.length == json.length){
             for(var i=0;i<data.devices.length;i++){
               //Change Status and Exec
@@ -115,10 +114,8 @@ var myfunction = function(){
               if(data.devices.length == 0){
                 var writeData = JSON.stringify(data);
               }else{
+                data.devices = json;
                 for(var i=0;i<data.devices.length;i++){
-                  var text = '{"status":"'+data.devices[i].status+'","nickname":"'+data.devices[i].nickname+'"}';
-                  var json_test = JSON.parse(text);
-                  data.devices[i] = json_test;
                   var writeData = JSON.stringify(data);
                   connection.query("INSERT INTO `devices` (`device`,`status`,`codeON`,`codeOFF`,`nickname`) values (?,?,?,?,?)",[data.devices[i].device,data.devices[i].status,data.devices[i].codeON,data.devices[i].codeOFF,data.devices[i].nickname],function(err,rows,fields){
                     if(err) throw err;

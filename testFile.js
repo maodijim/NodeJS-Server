@@ -16,14 +16,10 @@ var functions = require('./functions');
 
 var connection = mysql.createConnection(functions.connect);
 
-connection.query('select * from devices',function(err,rows){
-  var data = JSON.parse(rows);
-  console.log(data);
-});
-  /*var id = execSync('python functions.py').toString();
+var id = execSync('python functions.py').toString();
 
 id = JSON.parse(id);
-console.log(id.devices[0].status);*/
+console.log(id.devices[0].status);
 //connection.end();
 
 
