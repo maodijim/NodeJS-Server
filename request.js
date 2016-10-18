@@ -71,7 +71,7 @@ var myfunction = function(){
           execSync('git pull');
           execSync('pm2 restart bin/www');
           execSync('pm2 restart request.js');
-          execSync('chmod +x codesend RFSniffer1');
+          execSync('sudo chmod +x codesend RFSniffer1');
         }else if (body.substr(0,5) == 'order') {
           //Device Order Change Handler
           var arr = body.split(/[:,]/);
