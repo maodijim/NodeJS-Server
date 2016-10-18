@@ -75,7 +75,7 @@ var myfunction = function(){
           //Device Order Change Handler
           var arr = body.split(/[:,]/);
           for(var i=1; i<arr.length;i++){
-            connection.query("UPDATE `devices` SET `device`=?,`status`=?,`codeON`=?,`codeOFF`=?,`nickname`=? where id=?",[data.devices[i].device,data.devices[i].status,data.devices[i].codeON,data.devices[i].codeOFF,data.devices[i].nickname,arr[i]-1],function(err,rows,fields){
+            connection.query("UPDATE `devices` SET `device`=?,`status`=?,`codeON`=?,`codeOFF`=?,`nickname`=? where id=?",[data.devices[i-1].device,data.devices[i-1].status,data.devices[i-1].codeON,data.devices[i-1].codeOFF,data.devices[i-1].nickname,arr[i]-1],function(err,rows,fields){
               if(err) throw err;
             });
           }
