@@ -56,7 +56,6 @@ var myfunction = function(){
       }
     });
   }
-
   if(data.devices.length > 0){
     for(var i=0; i < data.devices.length;i++){
       newData.push({status:data.devices[i].status,nickname:data.devices[i].nickname});
@@ -69,8 +68,7 @@ var myfunction = function(){
           //Update New Version Software
           execSync('git checkout .');
           execSync('git pull');
-          execSync('sudo chmod +x codesend RFSniffer1');
-          execSync('sudo pm2 restart bin/www');
+          execSync('sudo chmod 777 codesend RFSniffer1');
         }else if (body.substr(0,5) == 'order') {
           //Device Order Change Handler
           var arr = body.split(/[:,]/);
