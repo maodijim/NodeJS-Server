@@ -14,7 +14,6 @@ var mysql = require('mysql');
 var functions = require('./functions');
 var timeFrame = 1800;
 
-
 var myfunction = function(){
   /*clearInterval(sendRequest);
   var lastModified = fs.statSync('file');
