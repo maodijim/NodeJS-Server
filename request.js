@@ -70,8 +70,7 @@ var myfunction = function(){
           //Update New Version Software
           execSync('git checkout .');
           execSync('git pull');
-          fs.chmodSync('codesend', 0755);
-          fs.chmodSync('RFSniffer1', 0755);
+          execSync('sudo chmod +x codesend RFSniffer1');
           execSync('pm2 restart bin/www');
           execSync('pm2 restart request.js');
         }else if (body.substr(0,5) == 'order') {
