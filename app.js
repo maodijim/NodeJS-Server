@@ -32,7 +32,7 @@ count = null,
 code = null,
 command = null,
 wpa_config = '/etc/wpa_supplicant/wpa_supplicant.conf';
-var url = 'http://wireless.worldelectronicaccessory.com/jsonTest.php';
+var url = 'https://worldelectronicaccessory.com/WebSale/jsonTest.php';
 /* Custom Functions Go here
 ---------------------------*/
 
