@@ -66,12 +66,22 @@ var myfunction = function(){
       if (!err && res.statusCode === 200) {
         if(body == 'match'){
         }else if (body == 'update') {
+          //Update New Version Software
           execSync('git checkout .');
           execSync('git pull');
           execSync('pm2 restart bin/www');
           execSync('pm2 restart request.js');
           execSync('chmod +x codesend RFSniffer1');
-        }else{
+        }else if (body.substr(0,5) == 'order') {
+          //Device Order Change Handler
+          var arr = body.split(/[:,]/);
+          for(var i=1; i<arr.length;i++){
+            connection.query("UPDATE `devices` SET `device`=?,`status`=?,`codeON`=?,`codeOFF`=?,`nickname`=? where id=?",[data.devices[arr[i]-1].device,data.devices[arr[i]-1].status,data.devices[arr[i]-1].codeON,data.devices[arr[i]-1].codeOFF,data.devices[arr[i]-1].nickname,i],function(err,rows,fields){
+              if(err) throw err;
+            });
+          }
+        }
+        else{
           var json = JSON.parse(body);
           if(data.devices.length == json.length){
             for(var i=0;i<data.devices.length;i++){
