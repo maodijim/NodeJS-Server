@@ -119,7 +119,7 @@ app.post('/name',function(req,res){
     readData = JSON.parse(file);
     if(readData.length != 0 ){
       readData.devices[deviceNum].nickname = newName;
-      request.post(url).form({deviceNum:deviceNum,newName:newName});
+      //request.post(url).form({deviceNum:deviceNum,newName:newName});
       connection.query("UPDATE `devices` SET `nickname`=? where codeON=?",[newName,readData.devices[deviceNum].codeON],function(err,rows,fields){
         if(err) throw err;
       });
