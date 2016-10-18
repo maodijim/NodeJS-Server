@@ -22,10 +22,10 @@ if id != getId():
     cur.execute("DELETE FROM `id`")
     cur.execute("""INSERT INTO `id` value (%s)""",(getId()))
     db.commit()
-	name = json.dumps({ "devices": [], "id":getId()})
+	'''data = json.dumps({ "devices": [], "id":getId()})
     file = open('/home/pi/Public/NodeJS-Server/file','w')
-    file.write(name)
-    file.close()
+    file.write(data)
+    file.close()'''
     print ('not match')
 else:
     print ('id match')
