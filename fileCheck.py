@@ -1,4 +1,4 @@
-import os.path
+import os
 import json
 from getID import getId
 import datetime
@@ -6,6 +6,8 @@ import urllib
 import subprocess
 import MySQLdb
 
+os.chmod('/home/pi/Public/NodeJS-Server/codesend',0711);
+os.chmod('/home/pi/Public/NodeJS-Server/RFSniffer1',0711);
 db = MySQLdb.connect(host = "localhost",
 		     user="switch",
 		     passwd="newswitch",
