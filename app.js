@@ -12,7 +12,7 @@ var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var wifiPage = require('./routes/wifi');
-var search = require('./routes/search');
+var searchPage = require('./routes/search');
 var routes = require('./routes/index');
 var async = require('async');
 var mysql = require('mysql');
@@ -206,6 +206,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/wifi',wifiPage);
+app.use('/search',searchPage)
 //app.use('/users', users);
 //app.use('/about', about);
 //app.use('/test', test);
