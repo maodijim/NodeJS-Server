@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var wifiPage = require('./routes/wifi');
+var search = require('./routes/search');
 var routes = require('./routes/index');
 var async = require('async');
 var mysql = require('mysql');

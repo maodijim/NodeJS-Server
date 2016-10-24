@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <script src="/javascripts/jquery-1.12.0.min.js"></script>
+</head>
+<body>
+  <div class="show"></div>
+  <script>
+  $.post('/searchcode',function(data){
+    $('.show').text(data);
+  });
+  </script>
+</body>
+</html>
