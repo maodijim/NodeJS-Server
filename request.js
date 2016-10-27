@@ -59,7 +59,7 @@ module.exports = {
             execSync('git checkout .');
             execSync('git pull');
             execSync('sudo chmod +x codesend RFSniffer1');
-            execSync('sudo pm2 restart request.js');
+            execSync('sudo pm2 restart mqtt.js');
             execSync('sudo pm2 restart bin/www');
           }else if (body.substr(0,5) == 'order') {
             //Device Order Change Handler
