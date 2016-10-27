@@ -9,7 +9,7 @@ var connection = mysql.createConnection(functions.connect);
 connection.query("SELECT * FROM id;",function(err,rows,fields){
   if(err) throw err;
   var id = crypto.createHash('sha1').update(rows[0].id).digest('hex');
-  const mqtt = spawn('mosquitto_sub',['-h','52.91.67.124','-t',id,'-v']);
+  const mqtt = spawn('mosquitto_sub',['-h','52.201.197.194','-t',id,'-v']);
   mqtt.stdout.on('data',(data)=>{
     statusChange.update();
   });
