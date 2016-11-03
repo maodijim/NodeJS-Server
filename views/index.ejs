@@ -175,7 +175,7 @@ Author: Wireless Switch
           //Generate Random Code
                 function randomGen() {
                     var temp ='';
-                    for (var i = 0; i < 20; i++) {
+                    for (var i = 0; i < 24; i++) {
                         var rand = Math.random();
                         if (rand > 0.5) {
                             temp += '1';
@@ -183,7 +183,7 @@ Author: Wireless Switch
                             temp += '0';
                         }
                     }
-                    var on = '1010'+temp;
+                    var on = temp
                     //var off = temp+'1100';
                     return on;
                 }
@@ -191,7 +191,7 @@ Author: Wireless Switch
                     var generateRan = randomGen();
                     var on = parseInt(generateRan,2).toString();
                     //var off = parseInt(generateRan[1],2).toString();
-                    var off = (parseInt(generateRan,2)-8).toString();
+                    var off = (parseInt(generateRan)-8).toString();
                     $('#offCode').typed({strings: [off], typeSpeed: 20});
                     $('#onCode').typed({strings: [on], typeSpeed: 20});
                 });
