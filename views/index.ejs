@@ -191,7 +191,7 @@ Author: Wireless Switch
                     var generateRan = randomGen();
                     var on = parseInt(generateRan,2).toString();
                     //var off = parseInt(generateRan[1],2).toString();
-                    var off = on-8;
+                    var off = (parseInt(generateRan,2)-8).toString();
                     $('#offCode').typed({strings: [off], typeSpeed: 20});
                     $('#onCode').typed({strings: [on], typeSpeed: 20});
                 });
