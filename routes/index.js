@@ -3,7 +3,7 @@ var router = express.Router();
 var execSync = require('child_process').execSync;
 var crypto = require("crypto");
 var functions = require('../functions');
-
+var version = "1.1.6";
 /* GET Index page. */
 router.get('/', function(req, res, next) {
   var file = execSync('python functions.py').toString();
@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
   var iv1 = iv.toString('hex');
   var uid = functions.encryt(id,iv);
   var count = data.devices.length;
-  res.render('index', {title:'Home Page', deviceNum:count,output:data,uid:uid,iv:iv1});
+  res.render('index', {title:'Home Page', deviceNum:count,output:data,uid:uid,iv:iv1,version:version});
 });
 
 
