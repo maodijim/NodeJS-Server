@@ -33,7 +33,7 @@ count = null,
 code = null,
 command = null,
 wpa_config = '/etc/wpa_supplicant/wpa_supplicant.conf';
-var url = 'https://worldelectronicaccessory.com/WebSale/jsonTest.php';
+var url = 'https://www.wswitch.net/jsonTest.php';
 /* Custom Functions Go here
 ---------------------------*/
 

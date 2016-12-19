@@ -72,7 +72,7 @@
               $.notify(data,"warn");
               if(data == "Save Wifi Info Sucess"){
                 $.notify(data,"success");
-                setTimeout(function(){window.location.href="www.wswitch.net/?app=true"},2000)
+                setTimeout(function(){window.location.href="www.wswitch.net/?app=true"},2000);
               }
             });
           }
@@ -80,7 +80,7 @@
 
         $('#reconnect').click(function(){
           $.post('/reconnect',{},function(data){
-            setTimeout(function(){window.location.href="www.wswitch.net/?app=true"},3000)
+            setTimeout(function(){window.location.href="www.wswitch.net/?app=true"},3000);
           });
         });
 

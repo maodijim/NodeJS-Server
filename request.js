@@ -17,7 +17,7 @@ module.exports = {
   //var timeFrame = 1800;
   update: function(){
     var connection = mysql.createConnection(functions.connect);
-    var url = 'https://worldelectronicaccessory.com/WebSale/jsonTest.php';
+    var url = 'https://www.wswitch.net/jsonTest.php';
     //var file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
     var file = execSync('python functions.py').toString();
     var data = JSON.parse(file);
