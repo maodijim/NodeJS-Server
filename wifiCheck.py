@@ -1,4 +1,4 @@
-from threading import Timer
+import threading
 import subprocess
 import datetime
 import sys
@@ -13,7 +13,7 @@ def test():
     try:
         if('from 8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 4 -W 15 | grep '8.8.8.8'", shell=True))):
             print('Reconnect to Internet')
-            Timer(15,reconnectmqtt).start()
+            threading.Timer(15,reconnectmqtt).start()
     except subprocess.CalledProcessError as e:
         subprocess.call(['sudo','ifdown','wlan0'])
         subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
@@ -29,7 +29,7 @@ if(sys.argv[1] == 'check'):
             subprocess.call(['sudo','ifdown','wlan0'])
             subprocess.call(['sudo','cp','/etc/network/interfaces1','/etc/network/interfaces'])
             subprocess.call(['sudo','ifup','wlan0'])
-            Timer(30,test).start()
+            threading.Timer(30,test).start()
     else:
         try:
             if('8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 3 -W 15 | grep '8.8.8.8'", shell=True))):
