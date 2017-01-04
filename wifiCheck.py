@@ -5,11 +5,14 @@ import sys
 time = datetime.datetime.now()
 apMode = subprocess.check_output("ping 10.0.0.1 -c 1 -W 1 | grep '1 received' | wc -l", shell=True)
 
+def reconnectmqtt():
+    subprocess.call('sudo pm2 restart /home/pi/Public/NodeJS-Server/mqtt.js',shell=TRUE)
+
 def test():
     try:
         if('from 8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 4 -W 15 | grep '8.8.8.8'", shell=True))):
             print('Reconnect to Internet')
-            subprocess.call('sudo pm2 restart /home/pi/Public/NodeJS-Server/mqtt.js',shell=TRUE)
+            Timer(15,reconnectmqtt).start()
     except subprocess.CalledProcessError as e:
         subprocess.call(['sudo','ifdown','wlan0'])
         subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
