@@ -46,4 +46,4 @@ if(sys.argv[1] == 'start'):
     subprocess.call(['sudo','ifdown','wlan0'])
     subprocess.call(['sudo','cp','/etc/network/interfaces1','/etc/network/interfaces'])
     subprocess.call(['sudo','ifup','wlan0'])
-    Timer(30,test).start()
+    threading.Timer(30,test).start()
