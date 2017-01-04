@@ -6,7 +6,8 @@ time = datetime.datetime.now()
 apMode = subprocess.check_output("ping 10.0.0.1 -c 1 -W 1 | grep '1 received' | wc -l", shell=True)
 
 def reconnectmqtt():
-    subprocess.call('sudo pm2 restart /home/pi/Public/NodeJS-Server/mqtt.js',shell=TRUE)
+    subprocess.call('sudo pm2 delete mqtt',shell=TRUE)
+    subprocess.call('sudo pm2 start /home/pi/Public/NodeJS-Server/mqtt.js',shell=TRUE)
 
 def test():
     try:
