@@ -19,9 +19,9 @@ def test():
         subprocess.call(['sudo','service','hostapd','start'])
         subprocess.call(['sudo','service','dnsmasq','restart'])
         subprocess.call(['sudo','ifup','wlan0'])
-if(len(sys.argv) < 1):
-    print("wrong Command")
-elif(sys.argv[1] == 'check'):
+if(len(sys.argv) <1):
+        print("wrong command")
+if(sys.argv[1] == 'check'):
     if (apMode[0] is '1'):
         print('AP Running')
         if ((time.minute % 10) == 0):
@@ -35,8 +35,8 @@ elif(sys.argv[1] == 'check'):
             if('8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 3 -W 15 | grep '8.8.8.8'", shell=True))):
                 print('Internet good')
         except subprocess.CalledProcessError as e:
-            print('Enable AP mo')
-            subp) < 1r:ocess.call(['sudo','service','hostapd','start'])
+            print('Enable AP mode')
+            subprocess.call(['sudo','service','hostapd','start'])
             subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
             subprocess.call(['sudo','reboot'])
 elif(sys.argv[1] == 'start'):
