@@ -21,7 +21,7 @@ def test():
         subprocess.call(['sudo','ifup','wlan0'])
 if(len(sys.argv) <1):
         print("wrong command")
-if(sys.argv[1] == 'check'):
+elif(sys.argv[1] == 'check'):
     if (apMode[0] is '1'):
         print('AP Running')
         if ((time.minute % 10) == 0):
