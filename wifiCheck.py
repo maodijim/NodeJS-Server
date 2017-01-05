@@ -38,11 +38,11 @@ if(sys.argv[1] == 'check'):
             subprocess.call(['sudo','service','hostapd','start'])
             subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
             subprocess.call(['sudo','reboot'])
-
-
-if(sys.argv[1] == 'start'):
+elif(sys.argv[1] == 'start'):
     subprocess.call(['sudo','service','hostapd','stop'])
     subprocess.call(['sudo','ifdown','wlan0'])
     subprocess.call(['sudo','cp','/etc/network/interfaces1','/etc/network/interfaces'])
     subprocess.call(['sudo','ifup','wlan0'])
     threading.Timer(30,test).start()
+else:
+    print("Wrong command");
