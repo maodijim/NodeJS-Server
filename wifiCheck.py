@@ -12,14 +12,14 @@ def test():
     try:
         if('from 8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 4 -W 15 | grep '8.8.8.8'", shell=True))):
             print('Reconnect to Internet')
-            '''threading.Timer(15,reconnectmqtt).start()'''
+            subprocess.call("sudo pm2 start /home/pi/Public/NodeJS-Server/mqtt.js", shell=TRUE)
     except subprocess.CalledProcessError as e:
         subprocess.call(['sudo','ifdown','wlan0'])
         subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
         subprocess.call(['sudo','service','hostapd','start'])
         subprocess.call(['sudo','service','dnsmasq','restart'])
         subprocess.call(['sudo','ifup','wlan0'])
-if(len(sys.argv) <1):
+if(len(sys.argv) < 1):
         print("wrong command")
 elif(sys.argv[1] == 'check'):
     if (apMode[0] is '1'):
