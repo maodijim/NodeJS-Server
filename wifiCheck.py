@@ -35,7 +35,7 @@ elif(sys.argv[1] == 'check'):
             if('8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 3 -W 15 | grep '8.8.8.8'", shell=True))):
                 print('Internet good')
         except subprocess.CalledProcessError as e:
-            print('Enable AP mo)
+            print('Enable AP mo')
             subp) < 1r:ocess.call(['sudo','service','hostapd','start'])
             subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
             subprocess.call(['sudo','reboot'])
