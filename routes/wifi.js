@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 const exec = require('child_process').exec;
-var mysql = requre('mysql');
 
 /* GET WIFI page. */
 router.get('/', function(req, res, next) {
