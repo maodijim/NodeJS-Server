@@ -3,7 +3,7 @@ var router = express.Router();
 var execSync = require('child_process').execSync;
 var crypto = require("crypto");
 var functions = require('../functions');
-var version = "1.1.9";
+var version = "1.2.0";
 /* GET Index page. */
 router.get('/', function(req, res, next) {
   var file = execSync('python functions.py').toString();

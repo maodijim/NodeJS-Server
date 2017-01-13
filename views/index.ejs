@@ -104,12 +104,8 @@ Author: Wireless Switch
               $.notify("Signal Sent Please wait",{className:'success', showDuration:250, hideDuration:600, autoHideDelay: 3000, });
               if(this.checked){
                 $.post('/',{status:'ON',device:<%=i%>});
-                //Send Status to Server
-                $.post(url,{status:'ON',deviceNum:<%=i%>,uid:'<%=uid%>',iv:'<%=iv%>'});
               }else{
                 $.post('/',{status:'OFF',device:<%=i%>});
-                //Send Status to Server
-                $.post(url,{status:'OFF',deviceNum:<%=i%>,uid:'<%=uid%>',iv:'<%=iv%>'});
               }
             });
 

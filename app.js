@@ -17,6 +17,7 @@ var routes = require('./routes/index');
 var async = require('async');
 var mysql = require('mysql');
 var functions = require('./functions');
+var crypto = require("crypto");
 //var users = require('./routes/users');
 //var about = require('./routes/about');
 //var test = require('./routes/test');
@@ -46,9 +47,13 @@ app.post('/reconnect',function(req,resp){
 app.post('/',function(req,response){
   deviceStatus = req.body.status;
   deviceNum = req.body.device;
+  console.log(deviceStatus);
   file = execSync('python functions.py').toString();
   readData = JSON.parse(file);
-  //  var file = 'file'+req.body.device;
+  var id = readData.id;
+  var iv = crypto.randomBytes(16);
+  var iv1 = iv.toString('hex');
+  var uid = functions.encryt(id,iv);
   if(readData.length != 0 ){
     if(deviceStatus == 'ON'){
       readData.devices[deviceNum].status = 'ON';
@@ -64,6 +69,7 @@ app.post('/',function(req,response){
         //    if (err) throw err;
         //  });
       });
+
     }else if(deviceStatus == 'OFF'){
       readData.devices[deviceNum].status = 'OFF';
       var writeData = JSON.stringify(readData);
@@ -79,7 +85,7 @@ app.post('/',function(req,response){
         //  });
       });
     }
-  }
+  }request.post('http://worldelectronicaccessory.com/WebSale/localChange.php',{form:{deviceNum:deviceNum,status:deviceStatus,uid:uid,iv:iv1}});
   response.send('file');
 });
 
