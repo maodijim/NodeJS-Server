@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 const exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
 
 /* GET WIFI page. */
 router.get('/', function(req, res, next) {
