@@ -37,7 +37,22 @@ connection.query("SELECT * FROM id;",function(err,rows,fields){
               });
             });
 
-        }else{
+        }else if(schedule[3] == "remove"){
+          var var time = schedule[2].split(":");
+          var date = '';
+          for(var i =4; i<schedule.length-1; i++){
+            date += schedule[i];
+            if(i != schedule.length-2){
+              date += ",";
+            }
+          }
+
+          cron.load(function(err,crontab){
+            var job = crontab.create('node /home/pi/Public/NodeJS-Server/schedule.js ' + deviceNum + " " + status , '* ' + time[1] + " " +time[0] + ' * ' + date);
+            crontab.remove(job);
+          });
+        }
+        else{
           var command = "echo node /home/pi/Public/NodeJS-Server/schedule.js "+deviceNum+" "+status+" | at "+schedule[2]+" "+schedule[3];
           exec(command,function(error,stdout,stderr){});
         }
