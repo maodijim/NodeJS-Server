@@ -17,8 +17,7 @@ connection.query("SELECT * FROM id;",function(err,rows,fields){
     if(result[1].includes("change")){
       statusChange.update();
     }else if (result[1].includes("time:")) {
-      var schedule = result[1].substring(5).split(/-|\n/);
-
+        var schedule = result[1].substring(5).split(/-|\n/);
         var status = schedule[1];
         var deviceNum = schedule[0];
         if (schedule[3] == "every"){
@@ -38,7 +37,7 @@ connection.query("SELECT * FROM id;",function(err,rows,fields){
             });
 
         }else if(schedule[3] == "remove"){
-          var var time = schedule[2].split(":");
+          var time = schedule[2].split(":");
           var date = '';
           for(var i =4; i<schedule.length-1; i++){
             date += schedule[i];
