@@ -1,3 +1,8 @@
+'''
+Author: Andy Mao
+
+Check wifi or AP mode
+'''
 import threading
 import subprocess
 import datetime
