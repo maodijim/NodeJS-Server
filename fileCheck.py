@@ -43,7 +43,7 @@ if ((time.minute % 5) == 0):
     result.close()
 
 if(sys.argv[1] == 'run'):
-	ip = subprocess.check_output("ifconfig wlan0|egrep -o 'inet addr:[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}'",shell=True)
+    ip = subprocess.check_output("ifconfig wlan0|egrep -o 'inet addr:[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}'",shell=True)
     params = urllib.urlencode({'ip_addr':ip[10:-2],'uid':getId()})
     result = urllib.urlopen('https://www.wswitch.net/jsonTest.php',params)
     result.close()
