@@ -8,6 +8,7 @@ var fs = require('fs');
 var util = require('util');
 var request = require('request');
 var bodyParser = require('body-parser');
+const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 var crypto = require("crypto");
 var mysql = require('mysql');
@@ -83,14 +84,14 @@ module.exports = {
                       if(err) throw err;
                     });
                     var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
-                    execSync(command)
+                    exec(command)
                     //  fs.writeFileSync('file',writeData);
                   }else{
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
                     var command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
-                    execSync(command)
+                    exec(command)
                     //fs.writeFileSync('file',writeData);
                   }
                 }
