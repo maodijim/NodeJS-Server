@@ -62,8 +62,8 @@ module.exports = {
             execSync('sudo chmod +x codesend RFSniffer1');
             execSync('sudo pm2 delete mqtt');
             execSync('sudo pm2 delete www');
-            execSync('sudo pm2 start mqtt.js');
-            execSync('sudo pm2 start bin/www');
+            execSync('sudo pm2 start /home/pi/Public/NodeJS-Server/mqtt.js');
+            execSync('sudo pm2 start /home/pi/Public/NodeJS-Server/bin/www');
           }else if (body.substr(0,5) == 'order') {
             //Device Order Change Handler
             var arr = body.split(/[:,]/);
