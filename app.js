@@ -85,7 +85,7 @@ app.post('/',function(req,response){
         //  });
       });
     }
-  }request.post('http://worldelectronicaccessory.com/WebSale/localChange.php',{form:{deviceNum:deviceNum,status:deviceStatus,uid:uid,iv:iv1}});
+  }request.post('https://www.worldelectronicaccessory.com/WebSale/localChange.php',{form:{deviceNum:deviceNum,status:deviceStatus,uid:uid,iv:iv1}});
   response.send('file');
 });
 
