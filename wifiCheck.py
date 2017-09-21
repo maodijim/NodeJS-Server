@@ -17,7 +17,7 @@ def test():
     try:
         if('from 8.8.8.8' in (subprocess.check_output("ping 8.8.8.8 -c 4 -W 15 | grep '8.8.8.8'", shell=True))):
             print('Reconnect to Internet')
-            '''reconnectmqtt()'''
+            reconnectmqtt()
     except subprocess.CalledProcessError as e:
         subprocess.call(['sudo','ifdown','wlan0'])
         subprocess.call(['sudo','cp','/etc/network/interfaces2','/etc/network/interfaces'])
