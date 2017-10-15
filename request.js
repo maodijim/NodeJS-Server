@@ -60,8 +60,8 @@ module.exports = {
             execSync('git checkout .');
             execSync('git pull');
             execSync('sudo chmod +x codesend RFSniffer1');
-            setTimeout(execSync('sudo pm2 reload mqtt'),1000);
-            setTimeout(execSync('sudo pm2 reload www'),5000);
+            setTimeout(exec('sudo pm2 reload mqtt'),1000);
+            setTimeout(exec('sudo pm2 reload www'),5000);
             //execSync('sudo pm2 start /home/pi/Public/NodeJS-Server/mqtt.js');
             //execSync('sudo pm2 start /home/pi/Public/NodeJS-Server/bin/www');
           }else if (body.substr(0,5) == 'order') {
