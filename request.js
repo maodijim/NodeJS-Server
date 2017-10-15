@@ -1,5 +1,5 @@
 /* Author: Wireless Switch
-Version:1.1.2
+Version:1.2.3
 */
 
 var express = require('express');
@@ -57,8 +57,8 @@ module.exports = {
           if(body == 'match'){
           }else if (body == 'update') {
             //Update New Version Software
-            execSync('sudo git checkout .');
-            execSync('sudo git pull');
+            execSync('git checkout .');
+            execSync('git pull');
             execSync('sudo chmod +x codesend RFSniffer1');
             execSync('sudo pm2 delete mqtt');
             execSync('sudo pm2 delete www');
