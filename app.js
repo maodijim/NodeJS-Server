@@ -1,5 +1,5 @@
 /* Author: Wireless Switch
-Version:1.2.4
+Version:1.2.5
 */
 var express = require('express');
 const exec = require('child_process').exec,
