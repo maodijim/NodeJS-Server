@@ -1,5 +1,5 @@
 /* Author: Wireless Switch
-Version:1.1.1
+Version:1.2.4
 */
 
 var express = require('express');
@@ -8,6 +8,7 @@ var fs = require('fs');
 var util = require('util');
 var request = require('request');
 var bodyParser = require('body-parser');
+const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 var crypto = require("crypto");
 var mysql = require('mysql');
@@ -59,8 +60,10 @@ module.exports = {
             execSync('git checkout .');
             execSync('git pull');
             execSync('sudo chmod +x codesend RFSniffer1');
-            execSync('sudo pm2 restart mqtt.js');
-            execSync('sudo pm2 restart bin/www');
+            setTimeout(exec('sudo pm2 reload mqtt'),1000);
+            setTimeout(exec('sudo pm2 reload www'),5000);
+            //execSync('sudo pm2 start /home/pi/Public/NodeJS-Server/mqtt.js');
+            //execSync('sudo pm2 start /home/pi/Public/NodeJS-Server/bin/www');
           }else if (body.substr(0,5) == 'order') {
             //Device Order Change Handler
             var arr = body.split(/[:,]/);
@@ -83,14 +86,14 @@ module.exports = {
                       if(err) throw err;
                     });
                     var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
-                    execSync(command)
+                    exec(command)
                     //  fs.writeFileSync('file',writeData);
                   }else{
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
                     var command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
-                    execSync(command)
+                    exec(command)
                     //fs.writeFileSync('file',writeData);
                   }
                 }

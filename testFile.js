@@ -16,10 +16,10 @@ var functions = require('./functions');
 
 var connection = mysql.createConnection(functions.connect);
 
-var id = execSync('python functions.py').toString();
-
-id = JSON.parse(id);
-console.log(id.devices[0].status);
+connection.query("SELECT * FROM id;",function(err,rows,fields){
+  var id = crypto.createHash('sha1').update(rows[0].id).digest('hex');
+  console.log(id);
+})
 //connection.end();
 
 

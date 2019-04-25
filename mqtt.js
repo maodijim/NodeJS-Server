@@ -5,19 +5,25 @@ var mysql = require('mysql');
 var statusChange = require('./request');
 var crypto = require("crypto");
 var cron = require('crontab');
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://52.201.197.194')
 
 var connection = mysql.createConnection(functions.connect);
 
 connection.query("SELECT * FROM id;",function(err,rows,fields){
   if(err) throw err;
   var id = crypto.createHash('sha1').update(rows[0].id).digest('hex');
-  const mqtt = spawn('mosquitto_sub',['-h','52.201.197.194','-t',id,'-v']);
-  mqtt.stdout.on('data',(data)=>{
-    var result = data.toString().split(" ");
-    if(result[1].includes("change")){
+  //const mqtt = spawn('mosquitto_sub',['-h','52.201.197.194','-t',id,'-v']);
+  client.on('connect', function () {
+    client.subscribe(id)
+  })
+
+  client.on('message',function(topic,message){
+    var result = message.toString().split(" ");
+    if(result[0].includes("change")){
       statusChange.update();
-    }else if (result[1].includes("time:")) {
-        var schedule = result[1].substring(5).split(/-|\n/);
+    }else if (result[0].includes("time:")) {
+        var schedule = result[0].substring(5).split(/-|\n/);
         var status = schedule[1];
         var deviceNum = schedule[0];
         if (schedule[3] == "every"){
