@@ -1,5 +1,5 @@
 /* Author: Wireless Switch
-Version:1.2.4
+Version:1.2.7
 */
 
 var express = require('express');
@@ -78,7 +78,7 @@ module.exports = {
             if(data.devices.length == json.length){
               for(var i=0;i<data.devices.length;i++){
                 //Change Status and Exec
-                if(data.devices[i].status != json[i].status){
+                if(['ON', 'OFF'].includes(data.devices[i].status)) {
                   data.devices[i].status = json[i].status;
                   var writeData = JSON.stringify(data);
                   if (data.devices[i].status == "ON"){
