@@ -78,7 +78,7 @@ module.exports = {
             if(data.devices.length == json.length){
               for(var i=0;i<data.devices.length;i++){
                 //Change Status and Exec
-                if(['ON', 'OFF'].includes(data.devices[i].status)) {
+                if(data.devices[i].status === 'ON' || data.devices[i].status === 'OFF') {
                   data.devices[i].status = json[i].status;
                   var writeData = JSON.stringify(data);
                   if (data.devices[i].status == "ON"){
