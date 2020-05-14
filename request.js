@@ -78,17 +78,17 @@ module.exports = {
             if(data.devices.length == json.length){
               for(var i=0;i<data.devices.length;i++){
                 //Change Status and Exec
-                if(data.devices[i].status === 'ON' || data.devices[i].status === 'OFF') {
+                if(data.devices[i].status !== json[i].status) {
                   data.devices[i].status = json[i].status;
                   var writeData = JSON.stringify(data);
-                  if (data.devices[i].status == "ON"){
+                  if (data.devices[i].status === "ON"){
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['ON',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
                     var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
                     exec(command)
                     //  fs.writeFileSync('file',writeData);
-                  }else{
+                  }else if (data.devices[i].status === "OFF") {
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
