@@ -64,7 +64,7 @@ app.post('/',function(req,response){
       });
       //  count = readData.devices.length;
       code = readData.devices[deviceNum].codeON;
-      command = 'sudo /home/pi/Public/NodeJS-Server/codesend '+code+' 1 120';
+      command = 'sudo ./codesend -p 120 ' + code;
       exec(command,function(error,stdout,stderr){
         //  fs.writeFile('file',writeData,(err) => {
         //    if (err) throw err;
@@ -79,7 +79,7 @@ app.post('/',function(req,response){
       });
       //count = readData.devices.length;
       code = readData.devices[deviceNum].codeOFF;
-      command = 'sudo /home/pi/Public/NodeJS-Server/codesend '+ code +' 1 120';
+      command = 'sudo ./codesend -p 120 '+ code;
       exec(command,function(error,stdout,stderr){
         //  fs.writeFile('file',writeData,(err) => {
         //    if (err) throw err;

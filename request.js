@@ -20,7 +20,7 @@ module.exports = {
     var connection = mysql.createConnection(functions.connect);
     var url = 'https://www.wswitch.net/jsonTest.php';
     //var file = fs.readFileSync('/home/pi/Public/NodeJS-Server/file','utf8');
-    var file = execSync('python /home/pi/Public/NodeJS-Server/functions.py').toString();
+    var file = execSync('python ./functions.py').toString();
     var data = JSON.parse(file);
     var newData =[];
     var id = data.id;
@@ -85,14 +85,14 @@ module.exports = {
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['ON',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
-                    var command = 'sudo ./codesend '+ data.devices[i].codeON +' 1 120';
+                    var command = 'sudo ./codesend -p 120 '+ data.devices[i].codeON;
                     exec(command)
                     //  fs.writeFileSync('file',writeData);
                   }else if (data.devices[i].status === "OFF") {
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
-                    var command = 'sudo ./codesend '+ data.devices[i].codeOFF +' 1 120';
+                    var command = 'sudo ./codesend -p 120 '+ data.devices[i].codeOFF;
                     exec(command)
                     //fs.writeFileSync('file',writeData);
                   }
