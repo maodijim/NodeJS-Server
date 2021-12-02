@@ -161,7 +161,7 @@ app.post('/add',function(req,res){
 
 //Return search result
 app.post('/searchcode',function(req,res){
-  command = 'sudo ./RFSniffer1';
+  command = 'python3 RFSniffer1';
   var child = spawn('python', ['RFSniffer1']);
 
   child.stdout.on('data',(data)=>{

@@ -6,7 +6,7 @@ var statusChange = require('./request');
 var crypto = require("crypto");
 var cron = require('crontab');
 var mqtt = require('mqtt');
-var client = mqtt.connect('mqtt://52.201.197.194')
+var client = mqtt.connect('mqtt://wswitch.net')
 
 var connection = mysql.createConnection(functions.connect);
 
