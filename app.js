@@ -64,7 +64,7 @@ app.post('/',function(req,response){
       });
       //  count = readData.devices.length;
       code = readData.devices[deviceNum].codeON;
-      command = 'sudo ./codesend -p 120 ' + code;
+      command = 'python3 codesend -p 120 ' + code;
       exec(command,function(error,stdout,stderr){
         //  fs.writeFile('file',writeData,(err) => {
         //    if (err) throw err;
@@ -79,7 +79,7 @@ app.post('/',function(req,response){
       });
       //count = readData.devices.length;
       code = readData.devices[deviceNum].codeOFF;
-      command = 'sudo ./codesend -p 120 '+ code;
+      command = 'python3 codesend -p 120 '+ code;
       exec(command,function(error,stdout,stderr){
         //  fs.writeFile('file',writeData,(err) => {
         //    if (err) throw err;
@@ -162,7 +162,7 @@ app.post('/add',function(req,res){
 //Return search result
 app.post('/searchcode',function(req,res){
   command = 'sudo ./RFSniffer1';
-  var child = spawn('sudo', ['./RFSniffer1']);
+  var child = spawn('python', ['RFSniffer1']);
 
   child.stdout.on('data',(data)=>{
     res.send(data.toString('utf8').substring(9));

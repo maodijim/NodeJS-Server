@@ -85,14 +85,14 @@ module.exports = {
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['ON',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
-                    var command = 'sudo ./codesend -p 120 '+ data.devices[i].codeON;
+                    var command = 'python codesend -p 120 '+ data.devices[i].codeON;
                     exec(command)
                     //  fs.writeFileSync('file',writeData);
                   }else if (data.devices[i].status === "OFF") {
                     connection.query("UPDATE `devices` SET `status`=? where codeON=?",['OFF',data.devices[i].codeON],function(err,rows,fields){
                       if(err) throw err;
                     });
-                    var command = 'sudo ./codesend -p 120 '+ data.devices[i].codeOFF;
+                    var command = 'python codesend -p 120 '+ data.devices[i].codeOFF;
                     exec(command)
                     //fs.writeFileSync('file',writeData);
                   }
