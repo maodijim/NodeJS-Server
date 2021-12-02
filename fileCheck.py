@@ -43,7 +43,7 @@ if ((time.minute % 5) == 0):
     result = urllib.urlopen('https://www.wswitch.net/jsonTest.php',params)
     result.close()
 
-if len(sys.argv) >= 1 and sys.argv[1] == 'run':
+if len(sys.argv) > 1 and sys.argv[1] == 'run':
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         s.connect(('10.255.255.255', 1))
